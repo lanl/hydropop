@@ -1,0 +1,32 @@
+name: hprepo
+channels:
+  - conda-forge
+  - defaults
+  - zeus1942
+  - shuternay
+  - jschwenk
+dependencies:
+  - gdal>3.3.1
+  - numpy
+  - geopandas>=0.10.1
+  - scikit-image
+  - rasterstats
+  - opencv
+  - seaborn
+  - networkx
+  - matplotlib
+  - fastdtw
+  - psycopg2  
+  - sqlalchemy
+  - geoalchemy2
+  - earthengine-api
+  - appdirs  
+  - netifaces
+  - joblib
+  - rivgraph>=0.4
+  - pip
+  - earthengine-api
+  - rabpro
+  - pip:
+    - ray[default]
+    - loguru
