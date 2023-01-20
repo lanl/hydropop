@@ -1,3 +1,17 @@
+Metadata-Version: 2.1
+Name: hpu
+Version: 1.0
+Summary: Package to create hydropop scaling units
+Home-page: https://github.com/lanl/hydropop
+Author: Jon Schwenk
+Author-email: jschwenk@lanl.gov
+Project-URL: Bug Tracker, https://github.com/lanl/hydropop/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # What are "hydropop units?"
 Creating scaling units to bridge ESM and "local" scale models
 
@@ -22,9 +36,9 @@ Finally, use `pip` to do a live-install of the repo into the environment.
 
 `conda activate hprepo`
 
-`pip install -e "path\to\hydropop\repo\folder"`
+`pip install -e "path\to\setup.py" # setup.py is in the hydropop repo you cloned`
 
-And that's it! Note that this is a "live install" of the hydropop repo, which means that as you edit (or update) the repo's code on your PC, those changes will be immediately recognized. You should be able to use `import hydropop.hp_utils` etc. at this point.
+And that's it! Note that this is a "live install" of the hydropop repo, which means that as you edit (or update) the repo's code on your PC, those changes will be immediately recognized.
 
 # License
 This repo is released with a [BSD-3 License](https://github.com/lanl/hydropop/blob/main/LICENSE).
