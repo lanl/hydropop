@@ -1,8 +1,0 @@
-LICENSE
-README.md
-setup.py
-hpu.egg-info/PKG-INFO
-hpu.egg-info/SOURCES.txt
-hpu.egg-info/dependency_links.txt
-hpu.egg-info/requires.txt
-hpu.egg-info/top_level.txt

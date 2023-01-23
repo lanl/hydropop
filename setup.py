@@ -12,7 +12,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="hpu",
+    name="hydropop",
     version="1.0",
     author="Jon Schwenk",
     author_email="jschwenk@lanl.gov",
@@ -24,7 +24,7 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/lanl/hydropop/issues",
     },
     # scripts=["rabpro/cli/rabpro"],
-    python_requires=">=3.7",
+    python_requires='>=3',
     install_requires=[
         "gdal",
         "numpy",

@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 from pyproj import CRS
+from shapely.geometry import Polygon, MultiPolygon
 from shapely.geometry import shape
 from shapely.validation import make_valid
 from shapely.ops import unary_union
@@ -960,10 +961,22 @@ def overlay_watersheds(hpus, basins, check_coverage=False):
             if g.within(hpu_poly) is False:
                 print('Warning: basin {} is not completely covered by HPUs.'.format(bid))
     
-    basins = basins[['id_gage', 'geometry']]
+    # Compute basin areas (recompute since they're already provided by VotE)
+    basins['basin_area_km2'] = [ru.area_4326(geom)[0] for geom in basins.geometry.values] 
+    
+    basins = basins[['id_gage', 'geometry', 'basin_area_km2']]
     intersected = gpd.overlay(hpus, basins, how="intersection")
-    intersected['overlap_area_km2'] = [sum(ru.area_4326(g)) for g in intersected.geometry.values]
-    intersected = intersected[['hpu_id', 'id_gage', 'area_sum', 'overlap_area_km2']]
+    int_areas = []
+    for g in intersected.geometry.values:
+        if type(g) is MultiPolygon:
+            this_area = 0
+            for geom in g.geoms:    
+                this_area = this_area + ru.area_4326(geom)[0]
+        else:
+            this_area = ru.area_4326(geom)[0]
+        int_areas.append(this_area)           
+    intersected['overlap_area_km2'] = int_areas
+    intersected = intersected[['hpu_id', 'id_gage', 'area_sum', 'overlap_area_km2', 'basin_area_km2']]
     intersected.sort_values(by=['id_gage', 'overlap_area_km2'], inplace=True)
 
     return intersected
