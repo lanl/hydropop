@@ -1,0 +1,34 @@
+# mkdocs.yml
+site_name: hydropop
+
+repo_url: https://github.com/lanl/hydropop
+
+nav:
+    - Home: index.md
+    - Hydropop Files and Data (units): hydropop_data.md
+    #   - CLI: scripts.md
+    # - API:
+    #   - attributes: attributes.md
+    #   - pg_table_creation: pg_table_creation.md
+    # - Vignettes:
+    #   - Pulling attributes for selected id_outlets: pull_attributes.py
+    #   - Edgecase waterbody gallery: wb_edgecases.py
+    #   - Firebgc: firebgc.ipynb
+    #   - River width comparisons: rivwidths.ipynb
+
+theme:
+  name: "readthedocs"
+  #watch:
+  #- VotE
+
+plugins:
+  - search
+  - table-reader:
+  - mkdocs-jupyter:
+      execute: False
+      execute_ignore: "pull_attributes.py"
+      execute_ignore: "wb_edgecases.py"
+      ignore_h1_titles: True
+      kernel_name: hydropop
+  - mkdocstrings:
+      

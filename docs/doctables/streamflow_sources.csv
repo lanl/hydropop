@@ -1,0 +1,12 @@
+Agency/Source,Source Name,Coverage,Link,Number gages ingested,Quality Flags,Catchments,Human Impacts Info,Ingestion Script
+ArcticGRO,arcticgro,Arctic,https://arcticgreatrivers.org/data/,17,Some,No,No,arcticgro.py
+Australian Govt. Bureau of Meterology and CAMELS-AUS,ausbom,Australia,http://www.bom.gov.au/water/ and https://essd.copernicus.org/articles/13/3847/2021/,4893,Yes,Some* (CAMELS-AUS),Yes,aus_bom_camels_aus.py
+CAMELS-BR,cambr,Brazil,https://essd.copernicus.org/articles/12/2075/2020/,3667,No,Yes* (GSIM),Yes (no binary designation),brazil_camels.py
+LamaH-CE,lamce,Central Europe,https://essd.copernicus.org/articles/13/4529/2021/,876,No,Yes,Yes,cent_europe_lamah_ce.py
+CAMELS-CL,camcl,Chile,https://hess.copernicus.org/articles/22/5817/2018/,516,No,Yes,Yes,chile_camels.py
+National River Flow Archive and CAMELS-BR,nrfa,Great Britain,https://nrfa.ceh.ac.uk/ and https://essd.copernicus.org/articles/12/2459/2020/,1560,No,CAMELS-GB only,Yes,gb_nfra_camels-gb.py
+Global Runoff Database,grdb,Global,https://www.bafg.de/GRDC/EN/01_GRDC/13_dtbse/database_node.html,5257* (North America excluded),No,Yes,No,grdb.py
+Water Survey of Canada,hydat,Canada,https://www.canada.ca/en/environment-climate-change/services/water-overview/quantity/monitoring/survey/data-products-services/national-archive-hydat.html,6405,Yes,Yes,Yes,hydat.py
+Banco Nacional de Datos de Aguas Superficiales,bandas,Mexico,https://app.conagua.gob.mx/bandas/,1332,No,No* (Hysets),No,mexico_bandas.py
+R-ArcticNET,rarcticnet,Arctic,https://www.r-arcticnet.sr.unh.edu/v4.0/index.html,121,No,No,No,rarcticnet.py
+United States Geological Survey,usgs,United States,https://waterdata.usgs.gov/nwis/rt,24189,Yes,No* (GAGES II),No* (GAGES II),usgs.py

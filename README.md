@@ -1,5 +1,5 @@
 # What are "hydropop units?"
-Creating scaling units to bridge ESM and "local" scale models
+Spatially continuous regions that feature similar mosquito habitat potential and human population density. Think “typologies”; HUs are effectively the “grid cells” that bridge the scale gap between ESM (fractions of a degree) grid cells and local, process-based population dynamics models.
 
 # Installation
 Instructions here are provided for installation into an Anaconda environment on a Windows machine. I recommend using `mamba` as a drop-in replacement for most `conda` commands. It's a package-solver that's orders of magnitude faster. You can install it into your base environment with

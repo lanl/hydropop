@@ -1,0 +1,31 @@
+column name ,description
+id_gage ,"unique VotE id, negative values indicate merged gages (i.e. duplicates)"
+source ,"usgs, hydat, bandas, rarcticnet, cdr, etc."
+station_name ,provided by source dataset
+river_name_source ,directly copied from source or sometimes inferred
+lat_source ,provided latitude
+lon_source ,provided longitude
+geom_source ,"geometry created from (lon_source, lat_source)"
+drainarea_km2_source ,provided drainage area
+elevation_m_source ,provided altitude of gage
+basin_geom_source ,provided watershed boundary
+naturalish ,indicator for pristine gages; methods vary among sources; see #110
+in_camels ,"text; denotes which, if any, among CAMELS-like databases the gage appears in. Options are 'usa', 'hysets', 'br', 'aug', 'cl', 'gb', 'aus'. Some USGS gages may appear in both 'usa' and 'hysets' and thus the field would read usa,hysets."
+start_date ,date of first streamflow record
+end_date ,date of last streamflow record
+span_years ,"total range of streamflow records, including missing data"
+fraction_valid ,number of days with streamflow record divided by span_years
+valid_chunks_nyears ,array; each element contains the number of years for each chunk of available data
+valid_chunks_startdate ,array; each element contains start date of each chunk (ordering corresponds to other valid columns)
+days_until_next_chunk ,array; each element contains the number of days of nodata following the chunk (ordering corresponds to other valid columns)
+mapped_id_reach ,id_reach within VotE corresponding to the reach on which the gage is located
+mapped_from_provided ,"boolean; if True, indicates mapping was possible using the provided gage metadata and simple mapping rules"
+mapped_dist_km ,distance between the provided gage location and the mapped gage location
+basin_geom_vote ,polygon geometry; the VotE-delineated watershed
+mapped_method ,int; provides information about the method used to perform the gage mapping
+mapped_geom ,point geometry; the position of the mapped gage coordinate
+manmap_da_km2 ,for manually mapping gages; contains the drainage area to use when mapping
+manmap_geom ,for manually mapping gages; manually-specified location of the gage
+manmap_method ,describes which method was used in manual mapping
+manmap_id_reach ,for manually mapping gages; the manually-selected id_reach corresponding to the gage
+id_duplicates,array type; id_gages of the original gages that were combined to create this streamflow record 

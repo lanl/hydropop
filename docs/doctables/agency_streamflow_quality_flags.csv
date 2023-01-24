@@ -1,0 +1,11 @@
+data provider ,flags ,link
+usgs (USA) ,character flags ,See both https://help.waterdata.usgs.gov/codes-and-parameters/instantaneous-value-qualification-code-uv_rmk_cd and https://help.waterdata.usgs.gov/codes-and-parameters/instantaneous-and-daily-value-status-codes
+HYDAT (Canada) ,character flags ,https://wateroffice.ec.gc.ca/contactus/faq_e.html#Q12
+BOM (Australia) ,numeric flags ,http://www.bom.gov.au/water/hrs/qc_doc.shtml
+CAMELS-BR (Brazil) ,1 or 0 ,Set to 1 if the data was quality checked by ANA (Brazilian National Water Agency) and a value of 0 otherwise. (Per CAMELS-BR readme.)
+CAMELS-CL (Chile) ,Nothing provided ,N/A
+r-arcticnet ,Nothing provided ,N/A
+NRFA + CAMELS-GB (Great Britain) ,Nothing provided ,N/A
+BANDAS (Mexico) ,Nothing provided ,N/A
+LamaH-CE (Central Europe) ,Nothing provided ,N/A
+ArcticGRO,"""A"" - certified by original agency or ""P"" for provisional",https://arcticgreatrivers.org/discharge/ and https://drive.google.com/file/d/1EbUS1AnF8jLdif0WL_fbjUXyfx7L-YHb/view?usp=sharing
