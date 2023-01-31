@@ -11,8 +11,6 @@ nav:
     #   - attributes: attributes.md
     #   - pg_table_creation: pg_table_creation.md
     # - Vignettes:
-    #   - Pulling attributes for selected id_outlets: pull_attributes.py
-    #   - Edgecase waterbody gallery: wb_edgecases.py
     #   - Firebgc: firebgc.ipynb
     #   - River width comparisons: rivwidths.ipynb
 
@@ -26,9 +24,11 @@ plugins:
   - table-reader:
   - mkdocs-jupyter:
       execute: False
-      execute_ignore: "pull_attributes.py"
-      execute_ignore: "wb_edgecases.py"
+      # execute_ignore: "pull_attributes.py"
+      # execute_ignore: "wb_edgecases.py"
       ignore_h1_titles: True
-      kernel_name: hydropop
+      kernel_name: hprepo
   - mkdocstrings:
       
+extra_css: 
+  - extra.css

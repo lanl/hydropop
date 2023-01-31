@@ -1,6 +1,0 @@
-column name ,description
-date ,YYYY-MM-DD
-id_gage ,unique VotE id; corresponds to those in gages table
-q_cms ,streamflow in m^3/s
-q_quality ,observation quality flag (if provided by source)
-vote_flags,quality flags computed by VotE; see [] for details

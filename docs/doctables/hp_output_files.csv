@@ -1,0 +1,8 @@
+filename,description
+{name}_\ `hpus.gpkg`_,GeoPackage containing the HPUs as polygons (or MultiPolygons) and some attributes. See the hpus.gpkg table for attribute list.
+{name}_hpus.shp,ESRI shapefile of HPU boundaries; this is primarily used for upload to Google Earth Engine (GEE) as GEE does not support the .gpkg format.
+{name}_hpus.tif,Geotiff of hydropop units. Pixel values represent the unit to which the HPU belongs and correspond to {name}_hpus.gpkg and {name}_hpus.shp. Provided as a convenience when raster math is faster.
+{name}_hpu_classes.tif,"Geotiff of hydropop classes. Pixel values represent the class to which the HPU belongs. A HP class is the ""cluster"" to which the pixel belongs. The maximum number of classes is set as a hydropop creation parameter. This file is essentially a rasterization of {name}_hpu_classes.gpkg."
+{name}_hpu_classes.gpkg,GeoPackage of hydropop classes. Each polygon represents a connected cluster of pixels sharing the same class.  The maximum number of classes is set as a hydropop creation parameter. This is a polygonization of the {name}_hpu_classes.tif file.
+{name}_areagrid.tif,"Geotiff for which pixel values represent the area of the pixel in square km. This is used for computing actual hydropop unit areas, as working in unprojected coordinate systems (4326) require a bit of extra work to estimate pixel areas in meaningful units (i.e. km instead of degrees)."
+{name}_adjacency.csv,"Provides connectivity information among hydropop units. Contains two columns: **hpu_id** of each hydropop unit in the dataset, and **adjacency** that specifies each hpu_id's neighbors as a comma-separated string."

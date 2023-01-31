@@ -1,6 +1,0 @@
-flag,meaning
-a,negative streamflow value
-b,ten consecutive streamflow values are the same
-c,ten consecutive streamflow values are nonzero and the same
-d,high outlier (greater than six times the day-of-year average)
-e,low outlier (less than six times the day-of-year average)

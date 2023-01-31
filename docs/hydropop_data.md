@@ -5,13 +5,59 @@ Hydropop units are spatially-continuous regions that feature similar 1) human po
 
 range-setting refers to pre-determining ranges of population density and HTHI that define hydropop unit classes. Since these may be selected somewhat arbitrarily (see Figure 1 below which shows how we used the global histograms to guide our decision), there are many possible combinations of ranges. We therefore have designed a _coarse_ and a _fine_ range set:
 
-|  | coarse | fine |
+
+### Output files
+The following table lists the minimum set of files a hydropop "run" will create. For each, `{rn}` refers to "run name", a parameter provided at the initialization of hydropop creation. Some of the files have their own tables that provide further details about the attributes found within them.
+
+| file | description | details |
+| - | ------ | -- |
+| roi.shp | A polygon (EPSG:4326) representing the study area considered for these files. | Any polygon can be provided; if you want a different study area, send me a message. |
+| hpus.gpkg | A GeoPackage (EPSG:4326) containing the HPUs as polygons (or MultiPolygons) and some attributes. | Attributes include: <br /> **hpu_id** : unique HPU identifier <br /> **hthi_mean**: the mean value of the hydrotopo habitat index within that HPU <br /> **pop_mean**: the mean value of the human population within the HPU (need to check units here) <br /> **area_sum**: the area of the HPU in square km <br /> **hpu_class**: the class to which the HPU belongs <br /> **centroid_x**: the longitude of the centroid of the HPU <br /> **centroid_y**: the latitude of the centroid of the HPU |
+| hpus.tif | A geotiff (EPSG:4326) of Hydropop Units. Pixel values represent the unit to which the HPU belongs. |  |
+| hpu_classes.tif | A geotiff (EPSG:4326) of Hydropop classes. Pixel values represent the class to which the HPU belongs. A HP class is the "cluster" to which the pixel belongs. There are as many classes as groups specified to the clustering algorithm (kmeans in this case). Classes, in general, have similar human populations and hydrotopo habitat potential values. HPUs are derived from classes by considering spatial connectivity. |  |
+| areagrid.tif | A geotiff (EPSG:4326) for which pixel values represent the area of the pixel in square km. This is used for computing actual HPU areas, as working in unprojected coordinate systems (4326) require a bit of extra work to estimate pixel areas in meaningful units (km instead of degrees). |  |
+| adjacency.csv | Provides connectivity information among HPUs. | Essentially a .csv with two columns: **hpu_id** of each hydropop unit in the dataset, and **adjacency** that specifies each hpu_id's neighbors as a comma-separated string |
+
+
+<table style=tight-table>
+<thead>
+<tr>
+<th>head1</th>
+<th>head2</th>
+<th>head3</th>
+<th>head4</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td>foot1</td>
+<td>foot2</td>
+<td>foot3</td>
+<td>foot4</td>
+</tr>
+</tfoot>
+<tbody>
+<tr>
+<td>cell1_1</td><td>cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1cell2_1</td><td>cell3_1</td><td>cell4_1</td></tr>
+<tr>
+<td>cell1_2</td><td>cell2_2</td><td>cell3_2</td><td>cell4_2</td></tr>
+<tr>
+<td>cell1_3</td><td>cell2_3</td><td>cell3_3</td><td>cell4_3</td></tr>
+<tr>
+<td>cell1_4</td><td>cell2_4</td><td>cell3_4</td><td>cell4_4</td></tr>
+<tr>
+<td>cell1_5</td><td>cell2_5</td><td>cell3_5</td><td>cell4_5</td></tr>
+</tbody>
+</tr>
+</table>
+
+<!-- |  | coarse | fine |
 | ------ | ------ | ------ |
 | **N HPU classes** | 12 | 30 |
 | **population intervals**| [-10], (-10, -4], (-4, 0], (0, >5] | [-10], (-10,-4], (-4, -1], (-1, 1], (1, 2], (2, >5] |
-| **HTHI intervals**| [0, 0.4], (0.4, 0.7], (0.7, 1] | [0, 0.3], (0.3, 0.55], (0.55, 0.75], (0.75, 0.9], (0.9, 1] |
+| **HTHI intervals**| [0, 0.4], (0.4, 0.7], (0.7, 1] | [0, 0.3], (0.3, 0.55], (0.55, 0.75], (0.75, 0.9], (0.9, 1] | -->
 
-Note that population density pixels whose values were == 0 were set to 10^-10. This is because population density values are log-transformed.
+<!-- Note that population density pixels whose values were == 0 were set to 10^-10. This is because population density values are log-transformed.
 
 ![image](/uploads/42e512980899ae847fc1d4952f88ec32/image.png)
 _Figure 1. Histograms of pixel counts for population density and hydrotopop-habitat index covering all the Americas._
@@ -58,7 +104,7 @@ Note that these files and structures are subject to change; **however**, files u
 | soc_d1-d2_mean | dg/kg | Average soil organic carbon across the HU between depths d1 and d2. | SoilGrids 2.0 via https://soil.copernicus.org/articles/7/217/2021/soil-7-217-2021.html |
 | clay_d1-d2_mean | g/kg | Average soil clay content across the HU between depths d1 and d2. | SoilGrids 2.0 via https://soil.copernicus.org/articles/7/217/2021/soil-7-217-2021.html |
 | sand_d1-d2_mean | g/kg | Average soil sand content across the HU between depths d1 and d2. | SoilGrids 2.0 via https://soil.copernicus.org/articles/7/217/2021/soil-7-217-2021.html |
-| lc_XXX | Between 0-1 | Fraction of HU covered by land cover type XXX. | MCD12Q1.006 MODIS Land Cover Type Yearly Global 500m for 2015 via https://lpdaac.usgs.gov/documents/101/MCD12_User_Guide_V6.pdf |
+| lc_XXX | Between 0-1 | Fraction of HU covered by land cover type XXX. | MCD12Q1.006 MODIS Land Cover Type Yearly Global 500m for 2015 via https://lpdaac.usgs.gov/documents/101/MCD12_User_Guide_V6.pdf | -->
 
 
 <!-- ## Ingestion
@@ -66,8 +112,6 @@ Note that these files and structures are subject to change; **however**, files u
 ### Sources
 
 Daily streamflow data were curated from at least 11 sources, with other sources used to fill metadata gaps or provide catchment boundaries where available. Some sources, such as CAMELS and CAMELS-like, were provided as published datasets while others were provided via direct APIs from the agencies. The following table describes the sources that have been ingested into VotE thus far.
-
-{{ read_csv('docs/doctables/streamflow_sources.csv') }}
 
 <span style="font-size:0.7em;">[GSIM: Global Streamflow and Metadata Archive](https://essd.copernicus.org/articles/10/765/2018/)
 
@@ -109,7 +153,6 @@ Only two tables store all streamgage information including metadata, catchments,
 
 ### The `gages` table
 
-{{ read_csv('docs/doctables/streamgage.gages_metadata.csv') }}
 
 #### Naturalish
 
@@ -121,17 +164,14 @@ put table here XXX
 
 Streamflow data are stored in "deflated" format, which simply means that no NoData values are stored, so there may be date discontinuities for a given record. See the docs for accessing streamflow data XXX for tools to "inflate" a record.
 
-{{ read_csv('docs/doctables/streamgage.streamflow_metadata.csv') }}
 
 #### Quality flags
 
 There are two sources of quality flags, and each has its own column in the `streamflow` table. The first,  `q_quality` contains those flags provided by the source. The following table details these flags' documentation locations.
 
-{{ read_csv('docs/doctables/agency_streamflow_quality_flags.csv') }}
 
 The second, `whatever it's called XXX` contains flags computed by VotE following the GSIM [] paper. These flags indicate the following:
 
-{{ read_csv('docs/doctables/vote_streamflow_quality_flags.csv') }}
 
 ## VotE-Fusion of gages
 
