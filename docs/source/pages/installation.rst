@@ -1,0 +1,46 @@
+.. _hpdata:
+.. role:: raw-html(raw)
+   :format: html
+
+============
+Installation
+============
+
+This repo is not provided as a conda/conda-forge/pip installable package. However, you may install the package by cloning
+the repo and performing a live install. Instructions for doing this within an Anaconda environment are provided here, and
+have only been tested on a Windows machine. 
+
+I recommend using ``mamba`` as a drop-in replacement for most ``conda`` commands. 
+It's a package-solver that's orders of magnitude faster. You can install it into your base environment with
+
+::
+
+   conda install mamba -c conda-forge
+
+or follow the actual `installation instructions <https://mamba.readthedocs.io/en/latest/installation.html>`_.
+
+Clone the ``hydropop`` repo to your PC. This will include the ``hp_enviornment.yml`` file containing the dependencies. I 
+prefer `Github Desktop <https://desktop.github.com/>`_ for repo management and cloning.
+
+Open an Anaconda Terminal window and create an empty environment named ``hprepo``:
+
+:: 
+
+   conda create --name hprepo --no-default-packages
+
+Then update this enviornment using ``mamba`` and pointing to the ``hp_environment.yml`` file:
+
+::
+
+   mamba env update -n hprepo --file "path\to\hp_environment.yml"
+
+Finally, use ``pip`` to do a live-install of the repo into the environment.
+
+::
+
+   conda activate hprepo
+   pip install -e "path\to\hydropop\repo\folder"
+
+And that's it! Note that this is a "live install" of the hydropop repo, which means that as you edit (or update) the 
+repo's code on your PC, those changes will be immediately recognized. You should be able to use ``import hydropop.hp_utils`` 
+etc. at this point.
