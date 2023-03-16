@@ -62,7 +62,7 @@ def export_fmax(asset, filename_out, gdrive_folder_name):
     task.start()
 
 
-def generate_datasets():
+def generate_datasets(dslist=None):
     """
     Returns a list of rabpro.Dataset objects that can be passed to 
     rabpro.subbasin_stats.compute(). These datasets will be sampled over
@@ -82,6 +82,24 @@ def generate_datasets():
                         'band': 'None',
                         'stats': ['mean'],
                         'mosaic': True},
+        'bdod_0-5' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_0-5cm_mean',
+                      'stats' : ['mean']},
+        'bdod_5-15' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_5-15cm_mean',
+                      'stats' : ['mean']},
+        'bdod_15-30' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_15-30cm_mean',
+                      'stats' : ['mean']},
+        'bdod_30-60' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_30-60cm_mean',
+                      'stats' : ['mean']},
+        'bdod_60-100' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_60-100cm_mean',
+                      'stats' : ['mean']},
+        'bdod_100-200' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_100-200cm_mean',
+                      'stats' : ['mean']},
         'soc_0-5' : {'path': 'projects/soilgrids-isric/soc_mean',
                       'band': 'soc_0-5cm_mean',
                       'stats' : ['mean']},
@@ -160,6 +178,9 @@ def generate_datasets():
                       'start': '2015-01-01',
                       'end' : '2015-12-31'},
         }
+    
+    if dslist is not None:
+        dataset_dict = {k:dataset_dict[k] for k in dslist}
 
     dataset_list = []
     for key in dataset_dict:
