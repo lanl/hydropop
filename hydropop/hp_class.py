@@ -5,12 +5,9 @@ Created on Mon Mar  9 13:37:22 2020
 @author: Jon
 """
 import numpy as np
-import sys
 import pandas as pd
 import geopandas as gpd
-sys.path.append(r'X:\Research\DR Reserve\Code')
-import hp_utils as hut
-import plotting_utils as pu
+import hydropop.hp_utils as hut
 import rivgraph.io_utils as io
 from osgeo import gdal
 import os
@@ -139,6 +136,18 @@ class hpu():
         # Set masked class values to 0
         # self.I['hpu_class'][self.I['mask']] = 0
         self.class_map = dmap
+        
+        # Format the class map
+        rows = ['HTHI_mean', 'pop_dens_mean', 'HTHI_min', 'HTHI_max', 'pop_dens_min', 'pop_dens_max']
+        cmf = pd.DataFrame(index=rows, columns=sorted(list(self.class_map.keys())))
+        for c in self.class_map:
+            cmf.at['HTHI_mean', c] = (self.class_map[c][2] + self.class_map[c][3])/2
+            cmf.at['pop_dens_mean', c] = (self.class_map[c][0] + self.class_map[c][1])/2
+            cmf.at['HTHI_min', c] = self.class_map[c][2] 
+            cmf.at['pop_dens_min', c] = self.class_map[c][0] 
+            cmf.at['HTHI_max', c] = self.class_map[c][3]
+            cmf.at['pop_dens_max', c] = self.class_map[c][1]
+        self.class_map_formatted = cmf
 
 
     def simplify_hpu_classes(self, min_class_size=4, nodata=0, maxiter=10, unique_neighbor=False):

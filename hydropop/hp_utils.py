@@ -6,18 +6,15 @@ Created on Thu Nov 21 14:22:19 2019
 
 env: hp
 """
-import sys
 import os
-sys.path.append(r'C:\Users\Jon\Desktop\Research\DR Reserve\Code')
-from osgeo import gdal, osr, ogr
+from osgeo import gdal, ogr
 import subprocess
 import platform
 import numpy as np
 import pandas as pd
 import geopandas as gpd
 from pyproj import CRS
-from shapely.geometry import Polygon, MultiPolygon
-from shapely.geometry import shape
+from shapely.geometry import MultiPolygon, shape
 from shapely.validation import make_valid
 from shapely.ops import unary_union
 import json
