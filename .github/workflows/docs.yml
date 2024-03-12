@@ -1,19 +1,25 @@
 name: Sphinx build
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Build HTML
-      uses: ammaraskar/sphinx-action@master
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
       with:
-        name: html-docs
-        path: docs/build/html
+          python-version: 3.10
+    
+    - name: Installing the Documentation requirements
+      run: |
+          pip3 install .[docs]
+
     - name: Deploy
       uses: uibcdf/action-sphinx-docs-to-gh-pages@main
       with:

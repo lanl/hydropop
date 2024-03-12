@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Sep 15 12:51:32 2022
-
-@author: 318596
-"""
-
 import setuptools
 
 
@@ -39,9 +32,10 @@ setuptools.setup(
         "tqdm",
         "beautifulsoup4",
     ],
-    # extras_require={
-    #     "test": ["pytest>=3"],
-    # },
+    extras_require={
+         "test": ["pytest>=3"],
+         "docs": ["python=3.10", "sphinx", "sphinx_rtd_theme"]
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         # "License :: OSI Approved :: BSD License",
