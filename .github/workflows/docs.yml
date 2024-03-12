@@ -18,7 +18,7 @@ jobs:
     
     - name: Installing the Documentation requirements
       run: |
-          pip3 install .[docs]
+          pip3 install sphinx sphinx_rtd_theme
 
     - name: Deploy
       uses: uibcdf/action-sphinx-docs-to-gh-pages@main
