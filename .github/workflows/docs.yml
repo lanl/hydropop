@@ -15,7 +15,7 @@ jobs:
         name: html-docs
         path: docs/build/html
     - name: Deploy
-      uses: uibcdf/action-sphinx-docs-to-gh-pages
+      uses: uibcdf/action-sphinx-docs-to-gh-pages@main
       with:
         branch: main
         github_token: ${{ secrets.GITHUB_TOKEN }}
