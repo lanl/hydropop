@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import tqdm
 import scipy
 import platform
 import subprocess
@@ -1067,7 +1068,7 @@ def create_hpus_from_classes(Iclasses, target_n_pix):
 
     """
    
-    rp, Ilabeled = ru._regionprops(Iclasses, props=['coords', 'area'])
+    rp, _ = ru._regionprops(Iclasses, props=['coords', 'area'])
     Iregions = np.ones(Iclasses.shape, dtype=int) * -1
     reg_label = 1
     for area, coords in zip(rp['area'], rp['coords']):

@@ -21,7 +21,7 @@ min_hpu_size = 20 # in pixels - each HPU will have at least this many pixels
 target_hpu_size = 300 # in pixels - not guaranteed, but will try to make each HPU this size
 
 ## Path parameters
-path_bounding_box = r"data/roi.gpkg" # shapefile of ROI
+path_bounding_box = r"data/roi_small.gpkg" # r"data/roi.gpkg"
 path_results = r'results' # folder to store results
 run_name = 'toronto_new_method' # string to prepend to exports
 gee_asset = 'projects/cimmid/assets/toronto_coarse_hpus' # the asset path to the hydropop shapefile--this might not be known beforehand but is created upon asset loading to GEE
@@ -42,7 +42,7 @@ if os.path.isdir(path_results) is False:
 
 """ Generate HPUs """
 # Instantiate hpu class - can take awhile to load images and do some preprocessing
-hpugen = hpc.hpu(path_pop, path_hthi, path_bounding_box)
+hpugen = hpc.hpu(path_pop, path_hthi, bounding=path_bounding_box)
 
 # Compute classes
 breaks = {'hthi':hthi_breaks, 'pop':pop_breaks}
@@ -55,8 +55,8 @@ hpugen.simplify_hpu_classes(min_class_size=min_hpu_size)
 hpugen.compute_hpus(target_hpu_size, min_hpu_size)
 
 # Export adjacency
-hpugen.compute_adjacency()
-hpugen.adjacency.to_csv(paths['adjacency'], index=False)
+adj_df = hpugen.compute_adjacency()
+adj_df.to_csv(paths['adjacency'], index=False)
 
 # Export HPU rasters
 hpugen.export_raster('hpu_simplified', paths['hpu_raster'])
