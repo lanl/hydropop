@@ -398,7 +398,7 @@ def simplify_classes(Ilabeled, minpatchsize, nodata=0, unique_neighbor=True, max
                
             # Get all the blobs of the unique value
             props = ['coords','area']
-            rp, _ = iu.regionprops(Iu, props, connectivity=2)
+            rp, _ = ru._regionprops(Iu, props, connectivity=2)
                 
             # Only investigate blobs that are below the threshold
             smallblobs = [i for i, x in enumerate(rp['area']) if x <= minpatchsize]
@@ -453,7 +453,7 @@ def simplify_hpus(Ihpu, Iclasses, target_hpu_size, min_hpu_size, nodata):
     """       
     
     # Find all the too-small HPUs
-    rp, Ilabeled = iu.regionprops(Ihpu, props=['area', 'label', 'coords'])
+    rp, Ilabeled = ru._regionprops(Ihpu, props=['area', 'label', 'coords'])
     
     do_idcs = np.where(rp['area']<(target_hpu_size/2))[0]
     
@@ -1067,7 +1067,7 @@ def create_hpus_from_classes(Iclasses, target_n_pix):
 
     """
    
-    rp, Ilabeled = iu.regionprops(Iclasses, props=['coords', 'area'])
+    rp, Ilabeled = ru._regionprops(Iclasses, props=['coords', 'area'])
     Iregions = np.ones(Iclasses.shape, dtype=int) * -1
     reg_label = 1
     for area, coords in zip(rp['area'], rp['coords']):
