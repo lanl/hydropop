@@ -34,7 +34,7 @@ setuptools.setup(
     ],
     extras_require={
          "test": ["pytest>=3"],
-         "docs": ["python=3.10", "sphinx", "sphinx_rtd_theme"]
+         "docs": ["sphinx", "sphinx_rtd_theme"]
     },
     classifiers=[
         "Programming Language :: Python :: 3",
