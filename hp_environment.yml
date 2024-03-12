@@ -1,10 +1,6 @@
 name: hprepo
 channels:
   - conda-forge
-  - defaults
-  - zeus1942
-  - shuternay
-  - jschwenk
 dependencies:
   - gdal>3.3.1
   - numpy
