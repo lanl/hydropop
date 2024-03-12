@@ -1,29 +1,25 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov 21 14:22:19 2019
-
-@author: Jon
-
-env: hp
-"""
 import os
-from osgeo import gdal, ogr
-import subprocess
+import sys
+import json
+import scipy
 import platform
+import subprocess
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 from pyproj import CRS
-from shapely.geometry import MultiPolygon, shape
-from shapely.validation import make_valid
-from shapely.ops import unary_union
-import json
-import rivgraph.im_utils as iu
-import scipy
+import geopandas as gpd
+#
+from osgeo import gdal, ogr
 from math import floor, ceil
-from rasterstats import zonal_stats
 from rabpro import utils as ru
-
+from rasterstats import zonal_stats
+#
+from shapely.ops import unary_union
+from shapely.validation import make_valid
+from shapely.geometry import MultiPolygon, shape
+#
+sys.path.append("hydropop")
+import rivgraph_ports as iu
 
 def hp_paths(basepath, basename):
     

@@ -1,45 +1,39 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May 25 09:30:14 2022
-
-@author: 318596
-"""
-
 import os
 import sys
-sys.path.append(r'X:\Research\CIMMID\hydropop\make_hpus')
+import rabpro
+import pandas as pd
+from osgeo import gdal
+import geopandas as gpd
+
+sys.path.append("hydropop")
 import hp_class as hpc
 import hp_utils as hut
 import gee_stats as gee
-from osgeo import gdal
-import pandas as pd
-import geopandas as gpd
-from rivgraph.io_utils import write_geotiff as wg
-import rabpro
-from matplotlib import pyplot as plt
+import rivgraph_ports as wg
 
-
-""" Adjustable parameters """
-# HPU creation parameters
+### """ Adjustable parameters """
+## HPU creation parameters
+# fmt: off
 pop_breaks = [-11, -10, -4, 0, 100] # coarse = [-11, -10, -4, 0, 100], fine =  [-11, -10, -4, -1, 1, 2, 100]
 hthi_breaks = [-.01, .4, .7, 1.01] # coarse = [-.01, .4, .7, 1.01], fine = [-.01, 0.3, 0.55, 0.75, 0.9, 1.01]
+# fmt: on
 min_hpu_size = 20 # in pixels - each HPU will have at least this many pixels
 target_hpu_size = 300 # in pixels - not guaranteed, but will try to make each HPU this size
 
-# Path parameters
-path_bounding_box = r"X:\Research\CIMMID\Data\Hydropop Layers\Finals\toronto_coarse\roi.gpkg" # shapefile of ROI
-path_results = r'X:\Research\CIMMID\Data\Hydropop Layers\Finals\toronto_new_hpu_method' # folder to store results
+## Path parameters
+path_bounding_box = r"data/roi.gpkg" # shapefile of ROI
+path_results = r'results' # folder to store results
 run_name = 'toronto_new_method' # string to prepend to exports
 gee_asset = 'projects/cimmid/assets/toronto_coarse_hpus' # the asset path to the hydropop shapefile--this might not be known beforehand but is created upon asset loading to GEE
 gdrive_folder_name = 'CIMMID_{}'.format(run_name)
 
-""" Pseduo-fixed parameters/variables """
+## Pseduo-fixed parameters/variables """
 # Paths to data
-path_hthi = r"X:\Research\CIMMID\Data\Hydropop Layers\Hydrotopo Index\hydrotopo_hab_index.tif"
-path_pop = r"X:\Research\CIMMID\Data\Hydropop Layers\pop_density_americas.tif"
-path_gee_csvs = r'X:\Research\CIMMID\Data\Hydropop Layers\Finals\toronto_new_hpu_method\gee' 
+path_hthi = r"data/hydrotopo_hab_index.tif"
+path_pop = r"data/pop_density_americas.tif"
+path_gee_csvs = r'results/toronto_new_hpu_method/gee' 
 
-""" Here we go """
+## Here we go
 paths = hut.prepare_export_paths(path_results, run_name)
 
 # Ensure results folder exists
@@ -154,86 +148,73 @@ hpus = gpd.read_file(paths['hpu_gpkg'])
 watersheds = gpd.read_file(path_watersheds)
 df = hut.overlay_watersheds(hpus, watersheds)
 df.to_csv(paths['gages'], index=False)
-        
+
+# from matplotlib import pyplot as plt
+# """
+# Creates a random colormap to be used together with matplotlib. Useful for segmentation tasks
+# :param nlabels: Number of labels (size of colormap)
+# :param type: 'bright' for strong colors, 'soft' for pastel colors
+# :param first_color_black: Option to use first color as black, True or False
+# :param last_color_black: Option to use last color as black, True or False
+# :param verbose: Prints the number of labels and shows the colormap. True or False
+# :return: colormap for matplotlib
+# """
+# from matplotlib.colors import LinearSegmentedColormap
+# import colorsys
+# import numpy as np
 
 
+# if type not in ('bright', 'soft'):
+#     print ('Please choose "bright" or "soft" for type')
+#     return
 
+# if verbose:
+#     print('Number of labels: ' + str(nlabels))
 
-    """
-    Creates a random colormap to be used together with matplotlib. Useful for segmentation tasks
-    :param nlabels: Number of labels (size of colormap)
-    :param type: 'bright' for strong colors, 'soft' for pastel colors
-    :param first_color_black: Option to use first color as black, True or False
-    :param last_color_black: Option to use last color as black, True or False
-    :param verbose: Prints the number of labels and shows the colormap. True or False
-    :return: colormap for matplotlib
-    """
-    from matplotlib.colors import LinearSegmentedColormap
-    import colorsys
-    import numpy as np
+# # Generate color map for bright colors, based on hsv
+# if type == 'bright':
+#     randHSVcolors = [(np.random.uniform(low=0.0, high=1),
+#                       np.random.uniform(low=0.2, high=1),
+#                       np.random.uniform(low=0.9, high=1)) for i in range(nlabels)]
 
+#     # Convert HSV list to RGB
+#     randRGBcolors = []
+#     for HSVcolor in randHSVcolors:
+#         randRGBcolors.append(colorsys.hsv_to_rgb(HSVcolor[0], HSVcolor[1], HSVcolor[2]))
 
-    if type not in ('bright', 'soft'):
-        print ('Please choose "bright" or "soft" for type')
-        return
+#     if first_color_black:
+#         randRGBcolors[0] = [0, 0, 0]
 
-    if verbose:
-        print('Number of labels: ' + str(nlabels))
+#     if last_color_black:
+#         randRGBcolors[-1] = [0, 0, 0]
 
-    # Generate color map for bright colors, based on hsv
-    if type == 'bright':
-        randHSVcolors = [(np.random.uniform(low=0.0, high=1),
-                          np.random.uniform(low=0.2, high=1),
-                          np.random.uniform(low=0.9, high=1)) for i in range(nlabels)]
+#     random_colormap = LinearSegmentedColormap.from_list('new_map', randRGBcolors, N=nlabels)
 
-        # Convert HSV list to RGB
-        randRGBcolors = []
-        for HSVcolor in randHSVcolors:
-            randRGBcolors.append(colorsys.hsv_to_rgb(HSVcolor[0], HSVcolor[1], HSVcolor[2]))
+# # Generate soft pastel colors, by limiting the RGB spectrum
+# if type == 'soft':
+#     low = 0.6
+#     high = 0.95
+#     randRGBcolors = [(np.random.uniform(low=low, high=high),
+#                       np.random.uniform(low=low, high=high),
+#                       np.random.uniform(low=low, high=high)) for i in range(nlabels)]
 
-        if first_color_black:
-            randRGBcolors[0] = [0, 0, 0]
+#     if first_color_black:
+#         randRGBcolors[0] = [0, 0, 0]
 
-        if last_color_black:
-            randRGBcolors[-1] = [0, 0, 0]
+#     if last_color_black:
+#         randRGBcolors[-1] = [0, 0, 0]
+#     random_colormap = LinearSegmentedColormap.from_list('new_map', randRGBcolors, N=nlabels)
 
-        random_colormap = LinearSegmentedColormap.from_list('new_map', randRGBcolors, N=nlabels)
+# # Display colorbar
+# if verbose:
+#     from matplotlib import colors, colorbar
+#     from matplotlib import pyplot as plt
+#     fig, ax = plt.subplots(1, 1, figsize=(15, 0.5))
 
-    # Generate soft pastel colors, by limiting the RGB spectrum
-    if type == 'soft':
-        low = 0.6
-        high = 0.95
-        randRGBcolors = [(np.random.uniform(low=low, high=high),
-                          np.random.uniform(low=low, high=high),
-                          np.random.uniform(low=low, high=high)) for i in range(nlabels)]
+#     bounds = np.linspace(0, nlabels, nlabels + 1)
+#     norm = colors.BoundaryNorm(bounds, nlabels)
 
-        if first_color_black:
-            randRGBcolors[0] = [0, 0, 0]
+#     cb = colorbar.ColorbarBase(ax, cmap=random_colormap, norm=norm, spacing='proportional', ticks=None,
+#                                boundaries=bounds, format='%1i', orientation=u'horizontal')
 
-        if last_color_black:
-            randRGBcolors[-1] = [0, 0, 0]
-        random_colormap = LinearSegmentedColormap.from_list('new_map', randRGBcolors, N=nlabels)
-
-    # Display colorbar
-    if verbose:
-        from matplotlib import colors, colorbar
-        from matplotlib import pyplot as plt
-        fig, ax = plt.subplots(1, 1, figsize=(15, 0.5))
-
-        bounds = np.linspace(0, nlabels, nlabels + 1)
-        norm = colors.BoundaryNorm(bounds, nlabels)
-
-        cb = colorbar.ColorbarBase(ax, cmap=random_colormap, norm=norm, spacing='proportional', ticks=None,
-                                   boundaries=bounds, format='%1i', orientation=u'horizontal')
-
-    return random_colormap
-
-
-
-
-
-
-
-
-
-
+# return random_colormap

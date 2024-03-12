@@ -1,18 +1,14 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Mar  9 13:37:22 2020
-
-@author: Jon
-"""
+import os
 import numpy as np
 import pandas as pd
-import geopandas as gpd
-import hydropop.hp_utils as hut
-import rivgraph.io_utils as io
 from osgeo import gdal
-import os
+import geopandas as gpd
 from scipy.cluster.vq import kmeans2
-from skimage.future.graph import RAG
+from skimage.graph import RAG
+#
+import hp_utils as hut
+import rivgraph_ports as io
+
 
 """
 The current HTHI has both large negative integers and nans as nodata.
