@@ -24,4 +24,3 @@ jobs:
       uses: uibcdf/action-sphinx-docs-to-gh-pages@main
       with:
         branch: main
-        dir_docs: docs/build/html        
