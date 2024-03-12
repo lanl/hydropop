@@ -24,5 +24,4 @@ jobs:
       uses: uibcdf/action-sphinx-docs-to-gh-pages@main
       with:
         branch: main
-        github_token: ${{ secrets.GITHUB_TOKEN }}
         dir_docs: docs/build/html        
