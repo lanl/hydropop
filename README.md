@@ -1,8 +1,8 @@
 ## hydropop
 
-### What are "hydropop units?"
+> What are "hydropop units?"
 
-Spatially continuous regions that feature similar habitat potential and human population density. Think “typologies”; HUs are effectively the “grid cells” that bridge the scale gap between ESM (fractions of a degree) grid cells and local, process-based population dynamics models.
+Hydropop units (HUs) are spatially continuous regions that feature similar habitat potential and human population density. Think “typologies”; HUs are effectively the “grid cells” that bridge the scale gap between ESM (fractions of a degree) grid cells and local, process-based population dynamics models.
 
 ### Setup
 
