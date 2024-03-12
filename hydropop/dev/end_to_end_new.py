@@ -49,7 +49,7 @@ breaks = {'hthi':hthi_breaks, 'pop':pop_breaks}
 hpugen.compute_hp_classes_ranges(breaks)
 
 # Simplify classes
-hpugen.simplify_hpu_classes(minpatch=min_hpu_size, unique_neighbor=False, maxiter=10)
+hpugen.simplify_hpu_classes(min_class_size=min_hpu_size)
 
 # Compute HPUs from classes image
 hpugen.compute_hpus(target_hpu_size, min_hpu_size)
