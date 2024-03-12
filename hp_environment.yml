@@ -19,10 +19,9 @@ dependencies:
   - appdirs  
   - netifaces
   - joblib
-  - rivgraph>=0.4
-  - pip
   - earthengine-api
+  - shapely>=1.8.0
   - rabpro
+  - pip
   - pip:
-    - ray[default]
     - loguru
