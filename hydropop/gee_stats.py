@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb  4 11:44:11 2022
-
-@author: 318596
-"""
 import os
 os.environ['RABPRO_DATA'] = r'X:\Data'
 import pandas as pd
@@ -67,7 +61,7 @@ def generate_datasets(dslist=None):
     Returns a list of rabpro.Dataset objects that can be passed to 
     rabpro.subbasin_stats.compute(). These datasets will be sampled over
     each HPU, and this particluar set was chosen in order to provide 
-    HPU-specific parameterizations for the E3SM's Land Model.
+    HPU-specific parameterizations for the E3SM Land Model.
     """
     # Create rabpro Dataset list -- uses a dictionary so parsing the results is easier
     dataset_dict = {

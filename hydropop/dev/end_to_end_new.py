@@ -1,6 +1,7 @@
 import os
 import sys
 import rabpro
+import argparse
 import pandas as pd
 from osgeo import gdal
 import geopandas as gpd
@@ -69,15 +70,15 @@ classes.to_file(paths['hpu_class_gpkg'], driver='GPKG')
 # Compute areagrid required for computing HP unit areas
 agrid = hut.areagrid(paths['hpu_raster'])
 gdobj = gdal.Open(paths['hpu_raster'])
-wg(agrid, gdobj.GetGeoTransform(), gdobj.GetProjection(), paths['areagrid'], dtype=gdal.GDT_Float32)
+wg.write_geotiff(agrid, gdobj.GetGeoTransform(), gdobj.GetProjection(), paths['areagrid'], dtype=gdal.GDT_Float32)
 
 """ Compute statistics for HPUs """
 # First, we do zonal stats on the locally-available rasters
 # HPU stats and properties
 do_stats = {'hthi' : [path_hthi, ['mean']],
            'pop' : [path_pop, ['mean']],
-           'area' : [paths['areagrid'], ['sum'], path_hpu_raster],
-           'hpu_class' :[paths['hpu_class_simplfied'], ['majority']]}
+           'area' : [paths['areagrid'], ['sum']],
+           'hpu_class' :[paths['hpu_class_raster'], ['majority']]}
 hpugen.compute_hpu_stats(do_stats)
 # Export the geopackage that contains all the HPU attributes
 hpugen.hpus.to_file(paths['hpu_gpkg'], driver='GPKG')
@@ -87,6 +88,9 @@ hpus_shp.crs = hpugen.hpus.crs
 hpus_shp.to_file(paths['hpu_shapefile']) # shapefile needed to upload to GEE
 
 """ STOP. Here you need to upload the hpu shapefile as a GEE asset. """
+is_uploaded_to_gee = input("Next step, upload the following shapefile (and its components) to GEE (Y/n)")
+while is_uploaded_to_gee is "n":
+    is_uploaded_to_gee = input("Next step, upload the following shapefile (and its components) to GEE (Y/n)")
 
 """ Update the gee_asset variable. """
 datasets, Datasets = gee.generate_datasets()
