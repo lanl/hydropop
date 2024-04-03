@@ -12,6 +12,7 @@ Hydropop units (HUs) are spatially continuous regions that feature similar habit
 
 ```shell
 conda env create -f hp_environment.yml
+pip install git+ssh://git@github.com/VeinsOfTheEarth/rabpro.git
 ```
 
 ### Usage
