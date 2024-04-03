@@ -24,6 +24,14 @@ python hydropop/dev/end_to_end_new.py
 
 For installation instructions and descriptions of outputs, see the [docs](https://lanl.github.io/hydropop/).
 
+### Development
+
+```shell
+# build docs
+pip install -r docs/requirements.txt
+cd docs && sphinx-build -M html source build
+```
+
 ### License
 
 This repo is released with a [BSD-3 License](https://github.com/lanl/hydropop/blob/main/LICENSE).
