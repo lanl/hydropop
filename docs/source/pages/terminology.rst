@@ -1,4 +1,4 @@
-.. _hpdata:
+.. _terminology:
 .. role:: raw-html(raw)
    :format: html
 
