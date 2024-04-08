@@ -7,3 +7,6 @@ docs/build/html/index.html:
 
 clean: 
 	rm docs/build/html/index.html
+
+rabpro:
+	pip install --upgrade -e ../rabpro

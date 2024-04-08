@@ -1,4 +1,4 @@
-# python hydropop/dev/end_to_end_new.py --pop_breaks -11 -10 -4 -1 1 2 100 --hthi_breaks -0.01 0.4 0.7 1.01 --run_name coarse_coarse_small
+# python hydropop/dev/end_to_end_new.py --pop_breaks -11 -10 -4 -1 1 2 100 --hthi_breaks -0.01 0.4 0.7 1.01 --path_bounding_box data/roi_small.gpkg --run_name coarse_coarse_small
 
 
 import os
@@ -39,7 +39,7 @@ def end_to_end_new(
     # path_bounding_box = r"data/roi_small.gpkg"  # r"data/roi.gpkg"
     path_results = r"results"  # folder to store results
     # run_name = "toronto_new_method"  # string to prepend to exports
-    gee_asset = "projects/cimmid/assets/toronto_coarse_hpus"  # the asset path to the hydropop shapefile--this might not be known beforehand but is created upon asset loading to GEE
+    gee_asset = "users/jstacompute/coarse_coarse_small_hpus"  # the asset path to the hydropop shapefile--this might not be known beforehand but is created upon asset loading to GEE
     gdrive_folder_name = "CIMMID_{}".format(run_name)
 
     ## Pseduo-fixed parameters/variables """
@@ -111,8 +111,6 @@ def end_to_end_new(
     hpus_shp.crs = hpugen.hpus.crs
     hpus_shp.to_file(paths["hpu_shapefile"])  # shapefile needed to upload to GEE
 
-    breakpoint()
-
     """ STOP. Here you need to upload the hpu shapefile as a GEE asset. """
     is_uploaded_to_gee = input(
         "Next step, upload the following shapefile (and its components) to GEE (Y/n)"
@@ -132,7 +130,10 @@ def end_to_end_new(
 
     # Spin up other datasets
     urls, tasks = rabpro.basin_stats.compute(
-        Datasets, gee_feature_path=gee_asset, folder=gdrive_folder_name
+        Datasets,
+        gee_feature_path=gee_asset,
+        folder=gdrive_folder_name,
+        validate_dataset_list=False,
     )
 
     """ STOP. Download the GEE exports (csvs) to path_gee_csvs """
@@ -197,12 +198,17 @@ if __name__ == "__main__":
 
     args = vars(parser.parse_args())
 
-    pop_breaks = [int(x) for x in args["pop_breaks"]]
-    hthi_breaks = [float(x) for x in args["hthi_breaks"]]
+    if args["pop_breaks"] is not None:
+        pop_breaks = [int(x) for x in args["pop_breaks"]]
+    if args["hthi_breaks"] is not None:
+        hthi_breaks = [float(x) for x in args["hthi_breaks"]]
+    if args["path_bounding_box"] is not None:
+        path_bounding_box = args["path_bounding_box"][0]
+    if args["run_name"] is not None:
+        run_name = args["run_name"][0]
+
     min_hpu_size = args["min_hpu_size"]
     target_hpu_size = args["target_hpu_size"]
-    path_bounding_box = args["path_bounding_box"]
-    run_name = args["run_name"]
 
     end_to_end_new(
         pop_breaks=pop_breaks,
