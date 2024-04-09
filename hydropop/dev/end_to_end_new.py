@@ -41,39 +41,30 @@ def _generate_hpus(
     target_hpu_size,
     path_bounding_box,
 ):
-    # Ensure results folder exists
     if os.path.isdir(path_results) is False:
         os.mkdir(path_results)
 
     """ Generate HPUs """
-    # Instantiate hpu class - can take awhile to load images and do some preprocessing
     hpugen = hpc.hpu(path_pop, path_hthi, bounding=path_bounding_box)
 
-    # Compute classes
     breaks = {"hthi": hthi_breaks, "pop": pop_breaks}
     hpugen.compute_hp_classes_ranges(breaks)
 
-    # Simplify classes
     hpugen.simplify_hpu_classes(min_class_size=min_hpu_size)
 
-    # Compute HPUs from classes image
     hpugen.compute_hpus(target_hpu_size, min_hpu_size)
 
-    # Export adjacency
     adj_df = hpugen.compute_adjacency()
     adj_df.to_csv(paths["adjacency"], index=False)
 
-    # Export HPU rasters
     hpugen.export_raster("hpu_simplified", paths["hpu_raster"])
     hpugen.export_raster("hpu_class_simplified", paths["hpu_class_raster"])
 
-    # Export classes as polygons for plotting
     classes = hut.polygonize_hpu(
         hpugen.I["hpu_class_simplified"], hpugen.gt, hpugen.wkt
     )
     classes.to_file(paths["hpu_class_gpkg"], driver="GPKG")
 
-    # Compute areagrid required for computing HP unit areas
     agrid = hut.areagrid(paths["hpu_raster"])
     gdobj = gdal.Open(paths["hpu_raster"])
     wg.write_geotiff(
@@ -94,7 +85,6 @@ def _generate_hpus(
         "hpu_class": [paths["hpu_class_raster"], ["majority"]],
     }
     hpugen.compute_hpu_stats(do_stats)
-    # Export the geopackage that contains all the HPU attributes
     hpugen.hpus.to_file(paths["hpu_gpkg"], driver="GPKG")
     # For the shapefile export, we only need the HPU id and the polygon
     hpus_shp = gpd.GeoDataFrame(hpugen.hpus[["hpu_id", "geometry"]])
@@ -111,15 +101,12 @@ def _run_gee(gee_asset, gdrive_folder_name):
             "Next step, upload the following shapefile (and its components) to GEE (Y/n)"
         )
 
-    """ Update the gee_asset variable. """
     datasets, Datasets = gee.generate_datasets()
 
-    # check and do fmax
     if "fmax" in datasets.keys():
         filename_out = "fmax"
         gee.export_fmax(gee_asset, filename_out, gdrive_folder_name)
 
-    # Spin up other datasets
     urls, tasks, filenames = rabpro.basin_stats.compute(
         Datasets,
         gee_feature_path=gee_asset,
@@ -131,7 +118,6 @@ def _run_gee(gee_asset, gdrive_folder_name):
 
 def _export_hpus(path_gee_csvs, paths, datasets):
     os.makedirs(path_gee_csvs, exist_ok=True)
-    """ STOP. Download the GEE exports (csvs) to path_gee_csvs """
     is_downloaded_from_gee = input(
         "Next step, download the GEE exports (csvs) to path_gee_csvs (Y/n)"
     )
@@ -154,7 +140,6 @@ def _export_hpus(path_gee_csvs, paths, datasets):
             look_for = look_for.replace("/", "-")
         this_csv = [c for c in gee_csvs if look_for in c][0]
 
-        # Ingest it
         csv = pd.read_csv(os.path.join(path_gee_csvs, this_csv))
 
         # Handle special cases first
