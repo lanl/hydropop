@@ -129,14 +129,24 @@ def end_to_end_new(
         gee.export_fmax(gee_asset, filename_out, gdrive_folder_name)
 
     # Spin up other datasets
-    urls, tasks = rabpro.basin_stats.compute(
+    urls, tasks, filenames = rabpro.basin_stats.compute(
         Datasets,
         gee_feature_path=gee_asset,
         folder=gdrive_folder_name,
         validate_dataset_list=False,
     )
 
+    os.makedirs(path_gee_csvs, exist_ok=True)
     """ STOP. Download the GEE exports (csvs) to path_gee_csvs """
+    is_downloaded_from_gee = input(
+        "Next step, download the GEE exports (csvs) to path_gee_csvs (Y/n)"
+    )
+    while is_downloaded_from_gee == "n":
+        is_downloaded_from_gee = input(
+            "Next step, download the GEE exports (csvs) to path_gee_csvs (Y/n)"
+        )
+
+    breakpoint()
     hpus = gpd.read_file(paths["hpu_gpkg"])
     gee_csvs = os.listdir(path_gee_csvs)
     for key in datasets.keys():
@@ -178,11 +188,11 @@ def end_to_end_new(
 
     # Export watershed/gage information - keep out of class since this is somewhat
     # external...for now
-    path_watersheds = r"X:\Research\CIMMID\Data\Watersheds\Toronto\initial_basins.gpkg"
-    hpus = gpd.read_file(paths["hpu_gpkg"])
-    watersheds = gpd.read_file(path_watersheds)
-    df = hut.overlay_watersheds(hpus, watersheds)
-    df.to_csv(paths["gages"], index=False)
+    # path_watersheds = r"X:\Research\CIMMID\Data\Watersheds\Toronto\initial_basins.gpkg"
+    # hpus = gpd.read_file(paths["hpu_gpkg"])
+    # watersheds = gpd.read_file(path_watersheds)
+    # df = hut.overlay_watersheds(hpus, watersheds)
+    # df.to_csv(paths["gages"], index=False)
 
 
 if __name__ == "__main__":
