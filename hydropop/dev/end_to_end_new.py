@@ -1,5 +1,19 @@
 # python hydropop/dev/end_to_end_new.py --pop_breaks -11 -10 -4 -1 1 2 100 --hthi_breaks -0.01 0.4 0.7 1.01 --path_bounding_box data/roi_small.gpkg --run_name coarse_coarse_small
 
+### """ Adjustable parameters """
+## HPU creation parameters
+# fmt: off
+# pop_breaks = [-11, -10, -4, 0, 100] # coarse = [-11, -10, -4, 0, 100], fine =  [-11, -10, -4, -1, 1, 2, 100]
+# hthi_breaks = [-.01, .4, .7, 1.01] # coarse = [-.01, .4, .7, 1.01], fine = [-.01, 0.3, 0.55, 0.75, 0.9, 1.01]
+# fmt: on
+# min_hpu_size = 20  # in pixels - each HPU will have at least this many pixels
+# target_hpu_size = (
+#     300  # in pixels - not guaranteed, but will try to make each HPU this size
+# )
+
+## Path parameters
+# path_bounding_box = r"data/roi_small.gpkg"  # r"data/roi.gpkg"
+# run_name = "toronto_new_method"  # string to prepend to exports
 
 import os
 import sys
@@ -16,41 +30,17 @@ import gee_stats as gee
 import rivgraph_ports as wg
 
 
-def end_to_end_new(
-    pop_breaks=[-11, -10, -4, 0, 100],
-    hthi_breaks=[-0.01, 0.4, 0.7, 1.01],
-    min_hpu_size=20,
-    target_hpu_size=300,
-    path_bounding_box="data/roi.gpkg",
-    run_name="toronto_new_method",
+def _generate_hpus(
+    path_results,
+    path_pop,
+    path_hthi,
+    paths,
+    pop_breaks,
+    hthi_breaks,
+    min_hpu_size,
+    target_hpu_size,
+    path_bounding_box,
 ):
-    ### """ Adjustable parameters """
-    ## HPU creation parameters
-    # fmt: off
-    # pop_breaks = [-11, -10, -4, 0, 100] # coarse = [-11, -10, -4, 0, 100], fine =  [-11, -10, -4, -1, 1, 2, 100]
-    # hthi_breaks = [-.01, .4, .7, 1.01] # coarse = [-.01, .4, .7, 1.01], fine = [-.01, 0.3, 0.55, 0.75, 0.9, 1.01]
-    # fmt: on
-    # min_hpu_size = 20  # in pixels - each HPU will have at least this many pixels
-    # target_hpu_size = (
-    #     300  # in pixels - not guaranteed, but will try to make each HPU this size
-    # )
-
-    ## Path parameters
-    # path_bounding_box = r"data/roi_small.gpkg"  # r"data/roi.gpkg"
-    path_results = r"results"  # folder to store results
-    # run_name = "toronto_new_method"  # string to prepend to exports
-    gee_asset = "users/jstacompute/coarse_coarse_small_hpus"  # the asset path to the hydropop shapefile--this might not be known beforehand but is created upon asset loading to GEE
-    gdrive_folder_name = "CIMMID_{}".format(run_name)
-
-    ## Pseduo-fixed parameters/variables """
-    # Paths to data
-    path_hthi = r"data/hydrotopo_hab_index.tif"
-    path_pop = r"data/pop_density_americas.tif"
-    path_gee_csvs = r"results/toronto_new_hpu_method/gee"
-
-    ## Here we go
-    paths = hut.prepare_export_paths(path_results, run_name)
-
     # Ensure results folder exists
     if os.path.isdir(path_results) is False:
         os.mkdir(path_results)
@@ -111,7 +101,8 @@ def end_to_end_new(
     hpus_shp.crs = hpugen.hpus.crs
     hpus_shp.to_file(paths["hpu_shapefile"])  # shapefile needed to upload to GEE
 
-    """ STOP. Here you need to upload the hpu shapefile as a GEE asset. """
+
+def _run_gee(gee_asset, gdrive_folder_name):
     is_uploaded_to_gee = input(
         "Next step, upload the following shapefile (and its components) to GEE (Y/n)"
     )
@@ -135,7 +126,10 @@ def end_to_end_new(
         folder=gdrive_folder_name,
         validate_dataset_list=False,
     )
+    return datasets
 
+
+def _export_hpus(path_gee_csvs, paths, datasets):
     os.makedirs(path_gee_csvs, exist_ok=True)
     """ STOP. Download the GEE exports (csvs) to path_gee_csvs """
     is_downloaded_from_gee = input(
@@ -146,7 +140,6 @@ def end_to_end_new(
             "Next step, download the GEE exports (csvs) to path_gee_csvs (Y/n)"
         )
 
-    breakpoint()
     hpus = gpd.read_file(paths["hpu_gpkg"])
     gee_csvs = os.listdir(path_gee_csvs)
     for key in datasets.keys():
@@ -193,6 +186,42 @@ def end_to_end_new(
     # watersheds = gpd.read_file(path_watersheds)
     # df = hut.overlay_watersheds(hpus, watersheds)
     # df.to_csv(paths["gages"], index=False)
+
+
+def end_to_end_new(
+    pop_breaks=[-11, -10, -4, 0, 100],
+    hthi_breaks=[-0.01, 0.4, 0.7, 1.01],
+    min_hpu_size=20,
+    target_hpu_size=300,
+    path_bounding_box="data/roi.gpkg",
+    run_name="toronto_new_method",
+):
+
+    path_results = r"results"  # folder to store results
+    gee_asset = "users/jstacompute/coarse_coarse_small_hpus"  # the asset path to the hydropop shapefile--this might not be known beforehand but is created upon asset loading to GEE
+    gdrive_folder_name = "CIMMID_{}".format(run_name)
+
+    ## Pseduo-fixed parameters/variables """
+    path_hthi = r"data/hydrotopo_hab_index.tif"
+    path_pop = r"data/pop_density_americas.tif"
+    path_gee_csvs = r"results/toronto_new_hpu_method/gee"
+    paths = hut.prepare_export_paths(path_results, run_name)
+
+    _generate_hpus(
+        path_results,
+        path_pop,
+        path_hthi,
+        paths,
+        pop_breaks,
+        hthi_breaks,
+        min_hpu_size,
+        target_hpu_size,
+        path_bounding_box,
+    )
+
+    datasets = _run_gee(gee_asset, gdrive_folder_name)
+
+    _export_hpus(path_gee_csvs, paths, datasets)
 
 
 if __name__ == "__main__":
