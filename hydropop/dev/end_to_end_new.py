@@ -180,6 +180,7 @@ def end_to_end_new(
     target_hpu_size=300,
     path_bounding_box="data/roi.gpkg",
     run_name="toronto_new_method",
+    overwrite=False
 ):
 
     path_results = r"results"  # folder to store results
@@ -191,6 +192,10 @@ def end_to_end_new(
     path_pop = r"data/pop_density_americas.tif"
     path_gee_csvs = r"results/toronto_new_hpu_method/gee"
     paths = hut.prepare_export_paths(path_results, run_name)
+
+    if not overwrite and os.path.exists(paths["hpu_gpkg"]):
+        print("Requested hpu already exists at:\n" + paths["hpu_gpkg"])
+        return None    
 
     _generate_hpus(
         path_results,
@@ -219,6 +224,7 @@ if __name__ == "__main__":
     parser.add_argument("--target_hpu_size", nargs=1, default=300, type=float)
     parser.add_argument("--path_bounding_box", nargs=1, type=str)
     parser.add_argument("--run_name", nargs=1, type=str)
+    parser.add_argument("--overwrite", dest="overwrite", default=False, action="store_true")
 
     args = vars(parser.parse_args())
 
@@ -233,6 +239,7 @@ if __name__ == "__main__":
 
     min_hpu_size = args["min_hpu_size"]
     target_hpu_size = args["target_hpu_size"]
+    overwrite = args["overwrite"]
 
     end_to_end_new(
         pop_breaks=pop_breaks,
@@ -241,6 +248,7 @@ if __name__ == "__main__":
         target_hpu_size=target_hpu_size,
         path_bounding_box=path_bounding_box,
         run_name=run_name,
+        overwrite=overwrite
     )
 
 # from matplotlib import pyplot as plt
