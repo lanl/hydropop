@@ -183,14 +183,14 @@ def end_to_end_new(
     overwrite=False
 ):
 
-    path_results = r"results"  # folder to store results
-    gee_asset = "users/jstacompute/coarse_coarse_small_hpus"  # the asset path to the hydropop shapefile--this might not be known beforehand but is created upon asset loading to GEE
+    path_results = r"results/" + run_name  # folder to store results
+    gee_asset = "projects/ee-rabpro/assets/" + run_name + "_hpus"
     gdrive_folder_name = "CIMMID_{}".format(run_name)
+    path_gee_csvs = r"results/" + run_name + "/gee"
 
     ## Pseduo-fixed parameters/variables """
     path_hthi = r"data/hydrotopo_hab_index.tif"
-    path_pop = r"data/pop_density_americas.tif"
-    path_gee_csvs = r"results/toronto_new_hpu_method/gee"
+    path_pop = r"data/pop_density_americas.tif"    
     paths = hut.prepare_export_paths(path_results, run_name)
 
     if not overwrite and os.path.exists(paths["hpu_gpkg"]):

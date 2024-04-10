@@ -1,3 +1,5 @@
+# https://code.earthengine.google.com/
+
 all:
 	python hydropop/dev/end_to_end_new.py \
 		--pop_breaks -11 -10 -4 0 100 \
