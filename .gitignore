@@ -144,3 +144,14 @@ cython_debug/
 
 # MacOS
 *DS_Store
+
+# Data
+results/*.dbf
+results/*.cpg
+results/*.gpkg
+results/*.prj
+results/*.shp
+results/*.tif
+results/*.csv
+results/*.shx
+data

@@ -194,7 +194,8 @@ def end_to_end_new(
     paths = hut.prepare_export_paths(path_results, run_name)
 
     if not overwrite and os.path.exists(paths["hpu_gpkg"]):
-        print("Requested hpu already exists at:\n" + paths["hpu_gpkg"])
+        print("Requested hpu already exists at:\n" + paths["hpu_gpkg"])        
+        # gpd.read_file(paths["hpu_gpkg"]).columns
         return None    
 
     _generate_hpus(
