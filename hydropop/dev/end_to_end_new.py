@@ -166,11 +166,11 @@ def _export_hpus(path_gee_csvs, paths, datasets):
 
     # Export watershed/gage information - keep out of class since this is somewhat
     # external...for now
-    # path_watersheds = r"X:\Research\CIMMID\Data\Watersheds\Toronto\initial_basins.gpkg"
-    # hpus = gpd.read_file(paths["hpu_gpkg"])
-    # watersheds = gpd.read_file(path_watersheds)
-    # df = hut.overlay_watersheds(hpus, watersheds)
-    # df.to_csv(paths["gages"], index=False)
+    path_watersheds = r"data/initial_basins.gpkg"
+    watersheds = gpd.read_file(path_watersheds)
+    hpus = gpd.read_file(paths["hpu_gpkg"])    
+    df = hut.overlay_watersheds(hpus, watersheds)
+    df.to_csv(paths["gages"], index=False)
 
 
 def end_to_end_new(
