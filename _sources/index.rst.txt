@@ -10,6 +10,7 @@ Welcome to hpdocs's documentation!
 
    pages/installation
    pages/hpdata
+   pages/terminology
 
 
 .. Indices and tables
