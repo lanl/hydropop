@@ -156,3 +156,4 @@ results/*.csv
 results/*.shx
 data
 hydropop/config.py
+config.py

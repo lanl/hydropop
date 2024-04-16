@@ -3,7 +3,7 @@ import sys
 import geopandas as gpd
 
 sys.path.append(".")
-from hydropop import config
+import config
 config.vote_db()
 from VotE.streamflow import export_streamflow as es
 
