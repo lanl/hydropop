@@ -10,3 +10,8 @@ clean:
 
 rabpro:
 	pip install --upgrade -e ../rabpro
+
+initial_data: data/initial_basins.gpkg data/initial_gages.gpkg
+
+data/initial_basins.gpkg data/initial_gages.gpkg: hydropop/streamflow/selecting_gages.py
+	python $<

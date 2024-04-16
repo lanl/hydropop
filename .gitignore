@@ -155,3 +155,4 @@ results/*.tif
 results/*.csv
 results/*.shx
 data
+hydropop/config.py

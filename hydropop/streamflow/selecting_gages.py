@@ -1,12 +1,13 @@
+import os
+import sys
 import geopandas as gpd
-from VotE import config
 
+sys.path.append(".")
+from hydropop import config
 config.vote_db()
 from VotE.streamflow import export_streamflow as es
-import os
 
-
-path_bounding_box = r"X:\Research\CIMMID\Data\Hydropop Layers\Finals\toronto_coarse\roi.gpkg"  # shapefile of ROI
+path_bounding_box = r"data/roi_small.gpkg"
 bb = gpd.read_file(path_bounding_box)
 gage_params = {
     "within": bb.geometry.values[0],
@@ -44,22 +45,22 @@ basins["end_date"] = basins["end_date"].astype(str)
 # gages = es.get_gages(current_gages['id_gage'].values.tolist())
 
 gage_locs.to_file(
-    r"X:\Research\CIMMID\Data\Watersheds\Toronto\initial_gages.gpkg", driver="GPKG"
+    r"data/initial_gages.gpkg", driver="GPKG"
 )
 basins.to_file(
-    r"X:\Research\CIMMID\Data\Watersheds\Toronto\initial_basins.gpkg", driver="GPKG"
+    r"data/initial_basins.gpkg", driver="GPKG"
 )
 
 """ Download streamflow data """
+path_dir = "data/na_10k/streamflow/"
+os.makedirs(path_dir, exist_ok=True)
+
 for id_gage in basins["id_gage"].values:
     print(id_gage)
     df = es.get_streamflow_timeseries(
         [int(id_gage)], start_date="1981-01-01", expand=True, trim=True
     )
     df.drop("id_gage", inplace=True, axis=1)
-    df.sort_values(by="date", inplace=True)
-    path_out = os.path.join(
-        r"X:\Research\CIMMID\Data\Hydropop Layers\Finals\na_10k\streamflow",
-        str(id_gage) + ".csv",
-    )
+    df.sort_values(by="date", inplace=True)    
+    path_out = path_dir + str(id_gage) + ".csv"
     df.to_csv(path_out, index=False)
