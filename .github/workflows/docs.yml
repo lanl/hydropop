@@ -31,17 +31,10 @@ jobs:
           conda list
   build:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-          python-version: '3.10'
-    
+    steps:    
     - name: Installing the Documentation requirements
       run: |
-          pip3 install sphinx sphinx_rtd_theme
+          pip install sphinx sphinx_rtd_theme
 
     - name: Deploy
       uses: uibcdf/action-sphinx-docs-to-gh-pages@main
