@@ -15,8 +15,9 @@ release = "0.1"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 import os
 import sys
-import hydropop
+# import hydropop
 sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
+# sys.path.insert(0, os.path.abspath("../"))
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.autosummary"]
 
