@@ -1,4 +1,4 @@
-.. _hpdata:
+.. _installation:
 .. role:: raw-html(raw)
    :format: html
 
