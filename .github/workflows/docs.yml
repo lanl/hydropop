@@ -9,6 +9,25 @@ on:
       - "docs/**"
 
 jobs:
+  install:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: false
+          activate-environment: hprepo          
+      - name: install
+        run: |
+          conda env list
+          conda info
+          conda list
+          conda install -c conda-forge pip          
+          pip install --upgrade -e .          
+          conda list
   build:
     runs-on: ubuntu-latest
     steps:
