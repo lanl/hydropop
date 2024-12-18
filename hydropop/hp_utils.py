@@ -20,7 +20,8 @@ from shapely.validation import make_valid
 from shapely.geometry import MultiPolygon, shape
 #
 sys.path.append("hydropop")
-import rivgraph_ports as iu
+from hydropop import rivgraph_ports as iu
+# import rivgraph_ports as iu
 
 def hp_paths(basepath, basename):
     
@@ -93,9 +94,7 @@ def threshold_pop(Ipop, threshold=2.5):
 
 def smooth_layer(layer, sigma):
     """
-    Replaces the astropy smoothing method with a much more efficient one. 
-    Smooths a layer containing nan values by considering only weights from
-    non-nan values. sigma is the size of the Gaussian smoothing kernel. 
+    Replaces the astropy smoothing method with a much more efficient one. Smooths a layer containing nan values by considering only weights from non-nan values. sigma is the size of the Gaussian smoothing kernel. 
     
     https://stackoverflow.com/questions/18697532/gaussian-filtering-a-image-with-nan-in-python/36307291
     """
@@ -579,10 +578,8 @@ def polygonize_hpu(I, geotransform, proj_wkt, Imask=None):
 def hpu_stats(do_stats, poly_gdf):
     """
     Computes all desired stats for each HPU. 
-    which_stats: dictionary whose kyes correspond to those in paths and whose values
-                 are the desired stats for each variable (look at rasterstats for
-                 stat choices, but they're pretty intuitive.)
-          paths: dictionary containing paths to the various rasters to be analyzed
+    which_stats: dictionary whose kyes correspond to those in paths and whose values are the desired stats for each variable (look at rasterstats for stat choices, but they're pretty intuitive.)
+    paths: dictionary containing paths to the various rasters to be analyzed
     """  
     gdf = poly_gdf.copy()
     for i, r in enumerate(do_stats.keys()):
@@ -693,32 +690,18 @@ def areagrid(georaster_path):
 
 def build_vrt(tilespath, clipper=None, extents=None, outputfile=None, nodataval=None, res=None, sampling='nearest', ftype='tif'):
     """
-    Creates a text file for input to gdalbuildvrt, then builds vrt file with 
-    same name. If output path is not specified, vrt is given the name of the 
-    final folder in the path. 
+    Creates a text file for input to gdalbuildvrt, then builds vrt file with same name. If output path is not specified, vrt is given the name of the final folder in the path. 
     
     INPUTS: 
-      tilespath - str:  the path to the file (or folder of files) to be clipped--
-                        if tilespath contains an extension (e.g. .tif, .vrt), then
-                        that file is used. Otherwise, a virtual raster will be 
-                        built of all the files in the provided folder.
-                        if filespath contains an extension (e.g. .tif, .vrt), 
-                        filenames  of tiffs to be written to vrt. This list 
-                        can be created by tifflist and should be in the same
-                        folder
-        extents - list: (optional) - the extents by which to crop the vrt. Extents
-                        should be a 4 element list: [left, right, top, bottom] in
-                        the ssame projection coordinates as the file(s) to be clipped
-        clipper - str:  path to a georeferenced image, vrt, or shapefile that will be used
-                        to clip
-     outputfile - str:  path (including filename w/ext) to output the vrt. If 
-                        none is provided, the vrt will be saved in the 'filespath'
-                        path
-            res - flt:  resolution of the output vrt (applied to both x and y directions)
-       sampling - str:  resampling scheme (nearest, bilinear, cubic, cubicspline, lanczos, average, mode)
-      nodataval - int:  (optional) - value to be masked as nodata
-          ftype - str:  'tif' if buuilding from a list of tiffs, or 'vrt' if 
-                        building from a vrt
+    tilespath - str: the path to the file (or folder of files) to be clipped
+    if tilespath contains an extension (e.g. .tif, .vrt), then  that file is used. Otherwise, a virtual raster will be built of all the files in the provided folder.
+    if tilespath contains an extension (e.g. .tif, .vrt), filenames  of tiffs to be written to vrt. This list can be created by tifflist and should be in the same folder
+    extents - list: (optional) - the extents by which to crop the vrt. Extents should be a 4 element list: [left, right, top, bottom] in the ssame projection coordinates as the file(s) to be clipped
+    clipper - str:  path to a georeferenced image, vrt, or shapefile that will be used to clip outputfile - str:  path (including filename w/ext) to output the vrt. If none is provided, the vrt will be saved in the 'filespath' path
+    res - flt:  resolution of the output vrt (applied to both x and y directions)
+    sampling - str:  resampling scheme (nearest, bilinear, cubic, cubicspline, lanczos, average, mode)
+    nodataval - int:  (optional) - value to be masked as nodata
+    ftype - str:  'tif' if buuilding from a list of tiffs, or 'vrt' if building from a vrt
     
     OUTPUTS:
         vrtname - str:  path+filname of the built virtual raster    
