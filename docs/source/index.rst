@@ -11,6 +11,7 @@ Welcome to hpdocs's documentation!
    pages/installation
    pages/hpdata
    pages/terminology
+   pages/api
 
 
 .. Indices and tables

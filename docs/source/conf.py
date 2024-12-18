@@ -13,8 +13,17 @@ release = "0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+import os
+import sys
+import hydropop
+sys.path.insert(0, os.path.abspath("../"))
 
-extensions = []
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.autosummary"]
+
+autosummary_generate = True
+autodoc_member_order = "bysource"
+# Remove parentheses from functions cross-referenced
+add_function_parentheses = False
 
 templates_path = ["_templates"]
 exclude_patterns = []
