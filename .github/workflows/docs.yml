@@ -10,7 +10,7 @@ on:
       - ".github/workflows/docs.yml"
 
 jobs:
-  install:
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -30,15 +30,12 @@ jobs:
           conda install -c conda-forge pip          
           pip install --upgrade -e .          
           conda list
-  build:
-    runs-on: ubuntu-latest
-    steps:    
-    - name: Installing the Documentation requirements
-      run: |
-          pip install sphinx sphinx_rtd_theme
+      - name: Installing the Documentation requirements
+        run: |
+            pip install sphinx sphinx_rtd_theme
 
-    - name: Deploy
-      uses: uibcdf/action-sphinx-docs-to-gh-pages@main
-      with:
-        branch: main
-        dir_docs: docs/source
+      - name: Deploy
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@main
+        with:
+          branch: main
+          dir_docs: docs/source
