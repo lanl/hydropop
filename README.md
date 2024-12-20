@@ -1,8 +1,10 @@
-## hydropop
+## ecopop
 
-> What are "hydropop units?"
+> What are "ecopop units?"
 
-Hydropop units (HUs) are spatially continuous regions that feature similar habitat potential and human population density. Think “typologies”; HUs are effectively the “grid cells” that bridge the scale gap between ESM (fractions of a degree) grid cells and local, process-based population dynamics models.
+Ecopop units (EUs) are spatially continuous regions that feature similar habitat potential ("eco") and human population ("pop") density. Think “typologies”; EUs were designed to serve as the “grid cells” that bridge the scale gap between an Earth System Model's grid cells (fractions of a degree) and local, process-based population dynamics models (sometimes at-a-point).
+
+Note that "ecopop" was derived from an earlier version called "hydropop," so some figures may refer to "hydropop" or "HPU."
 
 <p align="center">
 <a href='https://lanl.github.io/hydropop'><img src="docs/images/hpu_overview.png" height=450/></a>
