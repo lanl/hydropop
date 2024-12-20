@@ -1,10 +1,10 @@
-.. currentmodule:: hydropop
+.. currentmodule:: ecopop
 
 API
 ===
 
-hp_utils
+ep_utils
 ----------------------------
 
-.. automodule:: hydropop.hp_utils
+.. automodule:: ecopop.ep_utils
    :members:
