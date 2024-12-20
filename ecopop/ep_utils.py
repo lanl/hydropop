@@ -19,11 +19,11 @@ from shapely.ops import unary_union
 from shapely.validation import make_valid
 from shapely.geometry import MultiPolygon, shape
 #
-sys.path.append("hydropop")
-from hydropop import rivgraph_ports as iu
+sys.path.append("ecopop")
+from ecopop import rivgraph_ports as iu
 # import rivgraph_ports as iu
 
-def hp_paths(basepath, basename):
+def ep_paths(basepath, basename):
     
     paths = {
         'dem' : os.path.join(basepath, basename + '_meritDEM.tif'),
@@ -41,8 +41,8 @@ def hp_paths(basepath, basename):
         'ndvi' : os.path.join(basepath, basename + '_ndvi.tif'),
         'gdp' : os.path.join(basepath, basename + '_gdp.tif'),
         'hch' : os.path.join(basepath, basename + '_hch.tif'),
-        'hpus' : os.path.join(basepath, basename + '_hpus.tif'),
-        'hpu_polys' : os.path.join(basepath, basename + '_hpu_polys.shp'),
+        'epus' : os.path.join(basepath, basename + '_epus.tif'),
+        'epu_polys' : os.path.join(basepath, basename + '_epu_polys.shp'),
         'mhi' : os.path.join(basepath, basename + '_mhi.tif'),
         'area' : os.path.join(basepath, basename + '_area.tif'),
         'refgrid' : os.path.join(basepath, basename + '_refgrid.tif'),
@@ -55,12 +55,12 @@ def hp_paths(basepath, basename):
 def prepare_export_paths(path_results, run_name):
     
     paths = {
-        'hpu_class_raster' : os.path.join(path_results, '{}_hpu_classes.tif'.format(run_name)),
-        'hpu_class_gpkg' : os.path.join(path_results, '{}_hpu_classes.gpkg'.format(run_name)),
-        'hpu_raster' : os.path.join(path_results, '{}_hpus.tif'.format(run_name)),
-        'hpu_gpkg' : os.path.join(path_results, '{}_hpus.gpkg'.format(run_name)),
-        'hpu_all' : os.path.join(path_results, '{}_hpus_all.gpkg'.format(run_name)), # includes all hpus
-        'hpu_shapefile' : os.path.join(path_results, '{}_hpus.shp'.format(run_name)), # does not include masked-out hpus (waterbodies etc.)
+        'epu_class_raster' : os.path.join(path_results, '{}_epu_classes.tif'.format(run_name)),
+        'epu_class_gpkg' : os.path.join(path_results, '{}_epu_classes.gpkg'.format(run_name)),
+        'epu_raster' : os.path.join(path_results, '{}_epus.tif'.format(run_name)),
+        'epu_gpkg' : os.path.join(path_results, '{}_epus.gpkg'.format(run_name)),
+        'epu_all' : os.path.join(path_results, '{}_epus_all.gpkg'.format(run_name)), # includes all epus
+        'epu_shapefile' : os.path.join(path_results, '{}_epus.shp'.format(run_name)), # does not include masked-out epus (waterbodies etc.)
         'adjacency' : os.path.join(path_results, '{}_adjacency.csv'.format(run_name)),
         'areagrid' : os.path.join(path_results, '{}_areagrid.tif'.format(run_name)),
         'gages' :  os.path.join(path_results, '{}_gages.csv'.format(run_name))
@@ -319,7 +319,7 @@ def normalize_layers(layers, layerlist):
     gdp - normalized on 0,1 with higher values corresponding to lower gdp
     pop - normalized on 0,1 with higher values corresponding to higher gdp
     
-    In order to have HPUs be consistent across all spatial domains, normalization
+    In order to have epus be consistent across all spatial domains, normalization
     parameters are hard-coded based on physical reasoning or global statistics
     of the layer.
     """
@@ -383,15 +383,15 @@ def simplify_classes(Ilabeled, minpatchsize, nodata=0, unique_neighbor=True, max
     """    
     Ilab = Ilabeled.copy()
     Ind = np.isnan(Ilab)
-    unique_hps = np.unique(Ilab)
-    unique_hps = unique_hps[unique_hps != nodata] # -1 is a placeholder for NaNs
+    unique_eps = np.unique(Ilab)
+    unique_eps = unique_eps[unique_eps != nodata] # -1 is a placeholder for NaNs
     no_smallies = []
     iteration = 0
-    while no_smallies != set(unique_hps) and iteration < maxiter:
+    while no_smallies != set(unique_eps) and iteration < maxiter:
         iteration = iteration + 1
         print('iteration:{}'.format(iteration))
         no_smallies = set()
-        for u in unique_hps:
+        for u in unique_eps:
                         
             # Make an image of just the unique value locations
             Iu = Ilab==u 
@@ -445,35 +445,35 @@ def simplify_classes(Ilabeled, minpatchsize, nodata=0, unique_neighbor=True, max
     return Ilab
 
 
-def simplify_hpus(Ihpu, Iclasses, target_hpu_size, min_hpu_size, nodata):
+def simplify_epus(Iepu, Iclasses, target_epu_size, min_epu_size, nodata):
     """
-    Given an image where pixel values correspond to the HPU to which the
-    pixel belongs, this attempts to merge smaller HPUs with neighboring ones
-    of the same class such that no HPUs' areas are smaller than min_hpu_size.
+    Given an image where pixel values correspond to the epu to which the
+    pixel belongs, this attempts to merge smaller epus with neighboring ones
+    of the same class such that no epus' areas are smaller than min_epu_size.
     """       
     
-    # Find all the too-small HPUs
-    rp, Ilabeled = ru._regionprops(Ihpu, props=['area', 'label', 'coords'])
+    # Find all the too-small epus
+    rp, Ilabeled = ru._regionprops(Iepu, props=['area', 'label', 'coords'])
     
-    do_idcs = np.where(rp['area']<(target_hpu_size/2))[0]
+    do_idcs = np.where(rp['area']<(target_epu_size/2))[0]
     
     for i in do_idcs:
         this_label = rp['label'][i]
         this_coords = rp['coords'][i]
         this_class = Iclasses[this_coords[0][0], this_coords[0][1]]
         this_area = rp['area'][i]
-        # this_hpu_id = Ihpu[rp['coords'][i][0][0], rp['coords'][i][0][1]]
+        # this_epu_id = Iepu[rp['coords'][i][0][0], rp['coords'][i][0][1]]
                 
         # Get valid neighborhood values
         neighbor_labels = [iu.neighbor_vals(Ilabeled, c[1], c[0]) for c in this_coords]
         neighbor_labels = np.array(list(set(np.ndarray.flatten(np.array(neighbor_labels)))))
         
         # Exclude invalid neighbor values
-        neighbor_labels = neighbor_labels[neighbor_labels != this_label] # Can't be the same hpu
+        neighbor_labels = neighbor_labels[neighbor_labels != this_label] # Can't be the same epu
         neighbor_labels = neighbor_labels[np.isnan(neighbor_labels)== False] # Nans are at edges
-        neighbor_labels = neighbor_labels[neighbor_labels != nodata] # Don't want to set valid HPU to nodata
+        neighbor_labels = neighbor_labels[neighbor_labels != nodata] # Don't want to set valid epu to nodata
         
-        # Get the classes and areas for each neighboring HPU
+        # Get the classes and areas for each neighboring epu
         neighs = pd.DataFrame(columns=['idx', 'label', 'area', 'class'])
         neighs['label'] = neighbor_labels
         neighs['idx'] = [np.where(rp['label']==nl)[0][0] for nl in neighs['label']] 
@@ -482,26 +482,26 @@ def simplify_hpus(Ihpu, Iclasses, target_hpu_size, min_hpu_size, nodata):
         
         # Select which neighbor to absorb this blob into
         neighs = neighs[neighs['class']==this_class] # must be the same class
-        neighs = neighs[neighs['area'] > target_hpu_size/2] # we don't want to absorb into an HPU that is itself being absorbed
+        neighs = neighs[neighs['area'] > target_epu_size/2] # we don't want to absorb into an epu that is itself being absorbed
         
         if len(neighs) == 0: # no possible neighbors can absorb this one - this 
         # should never be the case if classes were computed correctly except 
         # where there is nodata
             continue
-        elif len(neighs) > 1: # Choose the neighbor that will result in an HPU area closest to target_hpu_size
-            neighs['area_discrepancy'] = np.abs(neighs['area'] + this_area - target_hpu_size) 
+        elif len(neighs) > 1: # Choose the neighbor that will result in an epu area closest to target_epu_size
+            neighs['area_discrepancy'] = np.abs(neighs['area'] + this_area - target_epu_size) 
             neighs.sort_values(by='area_discrepancy', ascending=True)
         
-        absorb_hpu_id = Ihpu[rp['coords'][neighs['idx'].values[0]][0][0], rp['coords'][neighs['idx'].values[0]][0][1]]
-        Ihpu[this_coords[:,0], this_coords[:,1]] = absorb_hpu_id
+        absorb_epu_id = Iepu[rp['coords'][neighs['idx'].values[0]][0][0], rp['coords'][neighs['idx'].values[0]][0][1]]
+        Iepu[this_coords[:,0], this_coords[:,1]] = absorb_epu_id
         
-    return Ihpu       
+    return Iepu       
     
 
-def polygonize_hpu(I, geotransform, proj_wkt, Imask=None):
+def polygonize_epu(I, geotransform, proj_wkt, Imask=None):
     """
-    Polygonizes HPUs using in-memory process (no need to write geotiff to disk).
-    The resulting GeoDataFrame has an 'hpu_id' column that represents the
+    Polygonizes epus using in-memory process (no need to write geotiff to disk).
+    The resulting GeoDataFrame has an 'epu_id' column that represents the
     value of the pixels comprising each polygon.
 
     Parameters
@@ -570,14 +570,14 @@ def polygonize_hpu(I, geotransform, proj_wkt, Imask=None):
             ids.append(int(f['properties']['DN']))
 
     gdf = gpd.GeoDataFrame(geometry=pgons, crs=CRS.from_epsg(4326))
-    gdf['hpu_id'] = ids
+    gdf['epu_id'] = ids
 
     return gdf
 
 
-def hpu_stats(do_stats, poly_gdf):
+def epu_stats(do_stats, poly_gdf):
     """
-    Computes all desired stats for each HPU. 
+    Computes all desired stats for each epu. 
     which_stats: dictionary whose kyes correspond to those in paths and whose values are the desired stats for each variable (look at rasterstats for stat choices, but they're pretty intuitive.)
     paths: dictionary containing paths to the various rasters to be analyzed
     """  
@@ -598,13 +598,13 @@ def hpu_stats(do_stats, poly_gdf):
 
 def get_stats(rastpath, poly_path, nodata=-999, stats='mean', prefix=''):
     """
-    Given the path to the rasterized HPU polygons and a path to a raster 
+    Given the path to the rasterized epu polygons and a path to a raster 
     we want to compute statistics, this computes the stats in 'stats' and 
-    returns a DataFrame containining all the stats for each HPU.
+    returns a DataFrame containining all the stats for each epu.
     
-    Note that HPU polygons must be in the same coordinate reference system
-    as the provided raster. In the case of HPUs, the rasters are all in
-    EPSG:4326 and the HPUs are derived from these rasters, so they are also in 
+    Note that epu polygons must be in the same coordinate reference system
+    as the provided raster. In the case of epus, the rasters are all in
+    EPSG:4326 and the epus are derived from these rasters, so they are also in 
     EPSG:4326.
     """    
     zstats = zonal_stats(poly_path, rastpath, stats=stats, nodata=nodata)  
@@ -909,16 +909,16 @@ def raster_extents(raster_path):
     return extents
 
 
-def overlay_watersheds(hpus, basins, check_coverage=False):
+def overlay_watersheds(epus, basins, check_coverage=False):
     """
-    Overlays HPUs on a GeoDataFrame of watersheds/basins and returns a dataframe
-    grouped by watersheds that contains the HPUs and respective areas for each
+    Overlays epus on a GeoDataFrame of watersheds/basins and returns a dataframe
+    grouped by watersheds that contains the epus and respective areas for each
     within each watershed. 
 
     Parameters
     ----------
-    hpus : geopandas.GeoDataFrame
-        Computed by the hpu class.
+    epus : geopandas.GeoDataFrame
+        Computed by the epu class.
     basins : geopandas.GeoDataFrame
         At a minimum, needs two columns: the watershed geometries and an id
         column called 'id_gage'.
@@ -926,23 +926,23 @@ def overlay_watersheds(hpus, basins, check_coverage=False):
     Returns
     -------
     regrouped : pandas.DataFrame
-        Contains three columns: id_gage, hpu_id (array), area_km2 (array). The
-        ordering of the hpu_id and area_km2 arrays correspond. 
+        Contains three columns: id_gage, epu_id (array), area_km2 (array). The
+        ordering of the epu_id and area_km2 arrays correspond. 
 
     """
     
     if check_coverage is True:
-        # Ensure that all basins are completely covered by HPUs
-        hpu_poly = unary_union(hpus.geometry.values)
+        # Ensure that all basins are completely covered by epus
+        epu_poly = unary_union(epus.geometry.values)
         for g, bid in zip(basins.geometry.values, basins['id_gage'].values):
-            if g.within(hpu_poly) is False:
-                print('Warning: basin {} is not completely covered by HPUs.'.format(bid))
+            if g.within(epu_poly) is False:
+                print('Warning: basin {} is not completely covered by epus.'.format(bid))
     
     # Compute basin areas (recompute since they're already provided by VotE)
     basins['basin_area_km2'] = [ru.area_4326(geom)[0] for geom in basins.geometry.values] 
     
     basins = basins[['id_gage', 'geometry', 'basin_area_km2']]
-    intersected = gpd.overlay(hpus, basins, how="intersection")
+    intersected = gpd.overlay(epus, basins, how="intersection")
     int_areas = []
     for g in intersected.geometry.values:
         if type(g) is MultiPolygon:
@@ -953,7 +953,7 @@ def overlay_watersheds(hpus, basins, check_coverage=False):
             this_area = ru.area_4326(geom)[0]
         int_areas.append(this_area)           
     intersected['overlap_area_km2'] = int_areas
-    intersected = intersected[['hpu_id', 'id_gage', 'area_sum', 'overlap_area_km2', 'basin_area_km2']]
+    intersected = intersected[['epu_id', 'id_gage', 'area_sum', 'overlap_area_km2', 'basin_area_km2']]
     intersected.sort_values(by=['id_gage', 'overlap_area_km2'], inplace=True)
 
     return intersected
@@ -1032,22 +1032,22 @@ def segment_binary_im(all_coords, imshape, target_n_pix, initial_label=1):
     return Iparent, label_id
 
 
-def create_hpus_from_classes(Iclasses, target_n_pix):
+def create_epus_from_classes(Iclasses, target_n_pix):
     """
-    Given an initial image of HP classes (Iclasses), this will divide those
-    classes into HPUs of approximately target_n_pix areas. 
+    Given an initial image of EP classes (Iclasses), this will divide those
+    classes into epus of approximately target_n_pix areas. 
 
     Parameters
     ----------
     Iclasses : numpy.array
-        Image of HPU class labels for each pixel in the domain.
+        Image of epu class labels for each pixel in the domain.
     target_n_pix : integer
-        Target size for each HPU.
+        Target size for each epu.
 
     Returns
     -------
     Iregions : numpy.array
-        Same shape as Iclasses; each HPU is uniquely labeled.
+        Same shape as Iclasses; each epu is uniquely labeled.
 
     """
    
@@ -1070,9 +1070,9 @@ def create_hpus_from_classes(Iclasses, target_n_pix):
 
 """ Graveyard """
 
-#def fill_hp_holes(I, maxholesize):
+#def fill_ep_holes(I, maxholesize):
 #    """
-#    This function has been replaced with simplify_hp. Choose unique_neghbor=True 
+#    This function has been replaced with simplify_ep. Choose unique_neghbor=True 
 #    for the same behavior.
 #    
 #    Given an image whose pixels are all integer labels, this will cycle through
@@ -1089,9 +1089,9 @@ def create_hpus_from_classes(Iclasses, target_n_pix):
 #    forsort = forsort[forsort[:,1].argsort()]
 #    # Remove -1 as it is nodata and set separately
 #    forsort = forsort[forsort[:,0]!=-1,:]
-#    unique_hps_sorted = forsort[:,0]
+#    unique_eps_sorted = forsort[:,0]
 #           
-#    for u in unique_hps_sorted:
+#    for u in unique_eps_sorted:
 #        
 #        # Make an image of just the unique value locations
 #        Iu = np.zeros(I.shape, dtype=np.bool)
@@ -1105,12 +1105,12 @@ def create_hpus_from_classes(Iclasses, target_n_pix):
 #    return Ic
 
 
-# def polygonize_hpu(HPU_path, poly_path, path_merged=None):
+# def polygonize_epu(epu_path, poly_path, path_merged=None):
 #     """
-#     Given the path to an HPU raster, this polygonizes it. Then it loads
-#     the polygon file and recombines all HPU polygons of the same type.
+#     Given the path to an epu raster, this polygonizes it. Then it loads
+#     the polygon file and recombines all epu polygons of the same type.
     
-#     merge_hpus : bool, If True, all HPUs of the same type will be merged
+#     merge_epus : bool, If True, all epus of the same type will be merged
 #                  into a Multipolygon.
 #     """
 #     # import pdb
@@ -1129,7 +1129,7 @@ def create_hpus_from_classes(Iclasses, target_n_pix):
 #                     gdal.GDT_CFloat64: ogr.OFTReal}
 
 #     # Initial polygonization with gdal.Polygonize()
-#     ds = gdal.Open(HPU_path)
+#     ds = gdal.Open(epu_path)
 #     prj = ds.GetProjection()
 #     srcband = ds.GetRasterBand(1)
 #     dst_layername = "Shape"
@@ -1140,22 +1140,22 @@ def create_hpus_from_classes(Iclasses, target_n_pix):
 #     srs = osr.SpatialReference(wkt=prj)
 
 #     dst_layer = dst_ds.CreateLayer(dst_layername, srs=srs)
-#     raster_field = ogr.FieldDefn('hpu', type_mapping[srcband.DataType])
+#     raster_field = ogr.FieldDefn('epu', type_mapping[srcband.DataType])
 #     dst_layer.CreateField(raster_field)
 #     gdal.Polygonize(srcband, srcband, dst_layer, 0, [], callback=None)
-#     del HPU_path, ds, srcband, dst_ds, dst_layer
+#     del epu_path, ds, srcband, dst_ds, dst_layer
     
-#     # Merge polygons of same HPU type
+#     # Merge polygons of same epu type
 #     if path_merged is not None:
 #         pgons = gpd.read_file(poly_path)
-#         unique_ids = np.unique(pgons.hpu.values)
+#         unique_ids = np.unique(pgons.epu.values)
 #         new_geoms = []
 #         for uid in unique_ids:
-#             polys_2_merge = pgons.geometry.values[pgons.hpu.values == uid]
+#             polys_2_merge = pgons.geometry.values[pgons.epu.values == uid]
 #             new_geoms.append(cascaded_union(polys_2_merge))
         
 #         merged_gdf = gpd.GeoDataFrame(geometry=new_geoms)
-#         merged_gdf['hpu'] = unique_ids
+#         merged_gdf['epu'] = unique_ids
 #         merged_gdf.crs = pgons.crs
 #         merged_gdf.to_file(path_merged)
 

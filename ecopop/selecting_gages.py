@@ -11,7 +11,7 @@ from VotE.streamflow import export_streamflow as es
 from shapely.geometry import MultiPolygon
 
 
-path_bounding_box = r"X:\Research\CIMMID\Data\Hydropop Layers\Finals\na_10k\trap_data_bb.gpkg" # shapefile of ROI
+path_bounding_box = r"X:\Research\CIMMID\Data\ecopop Layers\Finals\na_10k\trap_data_bb.gpkg" # shapefile of ROI
 bb = gpd.read_file(path_bounding_box)
 pgon = MultiPolygon(bb.geometry.tolist())
 gage_params = {'within' : pgon,
@@ -36,5 +36,5 @@ gage_locs['end_date'] = gage_locs['start_date'].astype(str)
 basins['start_date'] = basins['start_date'].astype(str)
 basins['end_date'] = basins['start_date'].astype(str)
 
-gage_locs.to_file(r'X:\Research\CIMMID\Data\Hydropop Layers\Finals\na_10k\gage_selection\trap_data_gages.gpkg', driver='GPKG')
-basins.to_file(r'X:\Research\CIMMID\Data\Hydropop Layers\Finals\na_10k\gage_selection\trap_data_basins.gpkg', driver='GPKG')
+gage_locs.to_file(r'X:\Research\CIMMID\Data\ecopop Layers\Finals\na_10k\gage_selection\trap_data_gages.gpkg', driver='GPKG')
+basins.to_file(r'X:\Research\CIMMID\Data\ecopop Layers\Finals\na_10k\gage_selection\trap_data_basins.gpkg', driver='GPKG')

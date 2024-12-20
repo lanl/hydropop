@@ -1,4 +1,4 @@
-name: hprepo
+name: ecopop
 channels:
   - conda-forge
 dependencies:

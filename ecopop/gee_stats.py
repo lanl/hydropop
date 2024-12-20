@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb  4 11:44:11 2022
-
-@author: 318596
-"""
-import os
-os.environ['RABPRO_DATA'] = r'X:\Data'
 import pandas as pd
 from rabpro.basin_stats import Dataset
 import ee
@@ -58,97 +50,147 @@ def export_fmax(asset, filename_out, gdrive_folder_name):
     task.start()
 
 
-def generate_datasets():
+def generate_datasets(dslist=None):
     """
     Returns a list of rabpro.Dataset objects that can be passed to 
     rabpro.subbasin_stats.compute(). These datasets will be sampled over
-    each HPU, and this particluar set was chosen in order to provide 
-    HPU-specific parameterizations for the E3SM's Land Model.
+    each epu, and this particluar set was chosen in order to provide 
+    epu-specific parameterizations for the E3SM Land Model.
     """
     # Create rabpro Dataset list -- uses a dictionary so parsing the results is easier
     dataset_dict = {
         'fmax' : 'custom',
         'elevation' : {'path': 'MERIT/DEM/v1_0_3',
                        'band': 'dem',
-                       'stats': ['mean', 'std']},
+                       'stats': ['mean', 'std'],
+                       'gee_type': "image"},
         'soil_depth' : {'path': 'projects/rabpro-datasets/assets/pelletier_average_soil_and_sedimentary_deposit_thickness',
                         'band': 'b1',
+                        'gee_type': "image",
                         'stats': ['mean']},
         'topo_slope' : {'path': 'projects/sat-io/open-datasets/Geomorpho90m/slope',
                         'band': 'None',
                         'stats': ['mean'],
                         'mosaic': True},
+        'bdod_0-5' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_0-5cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'bdod_5-15' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_5-15cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'bdod_15-30' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_15-30cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'bdod_30-60' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_30-60cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'bdod_60-100' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_60-100cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'bdod_100-200' : {'path': 'projects/soilgrids-isric/bdod_mean',
+                      'band': 'bdod_100-200cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
         'soc_0-5' : {'path': 'projects/soilgrids-isric/soc_mean',
                       'band': 'soc_0-5cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'soc_5-15' : {'path': 'projects/soilgrids-isric/soc_mean',
                       'band': 'soc_5-15cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'soc_15-30' : {'path': 'projects/soilgrids-isric/soc_mean',
                       'band': 'soc_15-30cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'soc_30-60' : {'path': 'projects/soilgrids-isric/soc_mean',
                       'band': 'soc_30-60cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'soc_60-100' : {'path': 'projects/soilgrids-isric/soc_mean',
                       'band': 'soc_60-100cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'soc_100-200' : {'path': 'projects/soilgrids-isric/soc_mean',
                       'band': 'soc_100-200cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'clay_0-5' : {'path': 'projects/soilgrids-isric/clay_mean',
                       'band': 'clay_0-5cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'clay_5-15' : {'path': 'projects/soilgrids-isric/clay_mean',
                       'band': 'clay_5-15cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'clay_15-30' : {'path': 'projects/soilgrids-isric/clay_mean',
                       'band': 'clay_15-30cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'clay_30-60' : {'path': 'projects/soilgrids-isric/clay_mean',
                       'band': 'clay_30-60cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'clay_60-100' : {'path': 'projects/soilgrids-isric/clay_mean',
                       'band': 'clay_60-100cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'clay_100-200' : {'path': 'projects/soilgrids-isric/clay_mean',
                       'band': 'clay_100-200cm_mean',
-                      'stats' : ['mean']},
-        'sand_0-5' : {'path': 'projects/soilgrids-isric/sand_mean',
-                      'band': 'sand_0-5cm_mean',
-                      'stats' : ['mean']},
-        'sand_5-15' : {'path': 'projects/soilgrids-isric/sand_mean',
-                      'band': 'sand_5-15cm_mean',
-                      'stats' : ['mean']},
-        'sand_15-30' : {'path': 'projects/soilgrids-isric/sand_mean',
-                      'band': 'sand_15-30cm_mean',
-                      'stats' : ['mean']},
-        'sand_30-60' : {'path': 'projects/soilgrids-isric/sand_mean',
-                      'band': 'sand_30-60cm_mean',
-                      'stats' : ['mean']},
-        'sand_60-100' : {'path': 'projects/soilgrids-isric/sand_mean',
-                      'band': 'sand_60-100cm_mean',
-                      'stats' : ['mean']},
-        'sand_100-200' : {'path': 'projects/soilgrids-isric/sand_mean',
-                      'band': 'sand_100-200cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'silt_0-5' : {'path': 'projects/soilgrids-isric/silt_mean',
                       'band': 'silt_0-5cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'silt_5-15' : {'path': 'projects/soilgrids-isric/silt_mean',
                       'band': 'silt_5-15cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'silt_15-30' : {'path': 'projects/soilgrids-isric/silt_mean',
                       'band': 'silt_15-30cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'silt_30-60' : {'path': 'projects/soilgrids-isric/silt_mean',
                       'band': 'silt_30-60cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'silt_60-100' : {'path': 'projects/soilgrids-isric/silt_mean',
                       'band': 'silt_60-100cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'silt_100-200' : {'path': 'projects/soilgrids-isric/silt_mean',
                       'band': 'silt_100-200cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'sand_0-5' : {'path': 'projects/soilgrids-isric/sand_mean',
+                      'band': 'sand_0-5cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'sand_5-15' : {'path': 'projects/soilgrids-isric/sand_mean',
+                      'band': 'sand_5-15cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'sand_15-30' : {'path': 'projects/soilgrids-isric/sand_mean',
+                      'band': 'sand_15-30cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'sand_30-60' : {'path': 'projects/soilgrids-isric/sand_mean',
+                      'band': 'sand_30-60cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'sand_60-100' : {'path': 'projects/soilgrids-isric/sand_mean',
+                      'band': 'sand_60-100cm_mean',
+                      'gee_type': "image",
+                      'stats' : ['mean']},
+        'sand_100-200' : {'path': 'projects/soilgrids-isric/sand_mean',
+                      'band': 'sand_100-200cm_mean',
+                      'gee_type': "image",
                       'stats' : ['mean']},
         'land_use' : {'path' : 'MODIS/006/MCD12Q1',
                       'band' : 'LC_Type1',
@@ -156,6 +198,9 @@ def generate_datasets():
                       'start': '2015-01-01',
                       'end' : '2015-12-31'},
         }
+    
+    if dslist is not None:
+        dataset_dict = {k:dataset_dict[k] for k in dslist}
 
     dataset_list = []
     for key in dataset_dict:
@@ -169,8 +214,12 @@ def generate_datasets():
             start = this_ds['start']
         if 'end' in this_ds.keys():
             end = this_ds['end']
+        if 'gee_type' in this_ds.keys():
+            gee_type = this_ds['gee_type']
+        else:
+            gee_type = None
             
-        dataset_list.append(Dataset(this_ds['path'], this_ds['band'], stats=this_ds['stats'], start=start, end=end, mosaic=mosaic))
+        dataset_list.append(Dataset(this_ds['path'], this_ds['band'], stats=this_ds['stats'], start=start, end=end, mosaic=mosaic, gee_type=gee_type))
 
     return dataset_dict, dataset_list
 
@@ -180,7 +229,7 @@ def format_lc_type1(csv, fractionalize=True, prepend=''):
     """
     Takes a csv returned by GEE's histogram function and expands
     them into a DataFrame. The input csv should have only two columns:
-        'histogram' and 'hpu_id'.
+        'histogram' and 'epu_id'.
     
     This particular function considers the MODIS MCD12Q1
     dataset, Type 1 classes.
@@ -206,7 +255,7 @@ def format_lc_type1(csv, fractionalize=True, prepend=''):
                 16: 'Barren',
                 17: 'Water Bodies'}
 
-    columns = [prepend + v for v in LC_Type1.values()] + ['hpu_id']
+    columns = [prepend + v for v in LC_Type1.values()] + ['epu_id']
 
     dfs = []
     for _, row in csv.iterrows():
@@ -219,7 +268,7 @@ def format_lc_type1(csv, fractionalize=True, prepend=''):
         this_df.loc[:,:] = 0
         for ds in dstr:
             this_df[prepend + LC_Type1[int(ds.split('=')[0])]] = float(ds.split('=')[1])/total
-            this_df['hpu_id'] = row['hpu_id']
+            this_df['epu_id'] = row['epu_id']
         dfs.append(this_df)
     
     dfhc = pd.concat(dfs) 
