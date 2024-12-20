@@ -7,25 +7,25 @@ Ecopop units (EUs) are spatially continuous regions that feature similar habitat
 Note that "ecopop" was derived from an earlier version called "hydropop," so some figures may refer to "hydropop" or "HPU."
 
 <p align="center">
-<a href='https://lanl.github.io/hydropop'><img src="docs/images/hpu_overview.png" height=450/></a>
+<a href='https://lanl.github.io/ecopop'><img src="docs/images/hpu_overview.png" height=450/></a>
 </p>
 
 ### Setup
 
 ```shell
-conda env create -f hp_environment.yml
+conda env create -f environment.yml # environment file in repo
 pip install git+ssh://git@github.com/VeinsOfTheEarth/rabpro.git
 ```
 
 ### Usage
 
 ```shell
-python hydropop/dev/end_to_end_new.py
+python ecopop/dev/end_to_end_new.py
 ```
 
 ### Documentation
 
-For installation instructions and descriptions of outputs, see the [docs](https://lanl.github.io/hydropop/).
+For installation instructions and descriptions of outputs, see the [docs](https://lanl.github.io/ecopop/).
 
 ### Development
 
@@ -37,4 +37,4 @@ cd docs && sphinx-build -M html source build
 
 ### License
 
-This repo is released with a [BSD-3 License](https://github.com/lanl/hydropop/blob/main/LICENSE).
+This repo is released with a [BSD-3 License](https://github.com/lanl/ecopop/blob/main/LICENSE).
