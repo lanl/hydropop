@@ -28,11 +28,11 @@ Open an Anaconda Terminal window and create an empty environment named ``hprepo`
 
    conda create --name hprepo --no-default-packages
 
-Then update this enviornment using ``mamba`` and pointing to the ``hp_environment.yml`` file:
+Then update this enviornment using ``mamba`` and pointing to the ``environment.yml`` file:
 
 ::
 
-   mamba env update -n hprepo --file "path\to\hp_environment.yml"
+   mamba env update -n hprepo --file "path\to\environment.yml"
 
 Finally, use ``pip`` to do a live-install of the repo into the environment.
 

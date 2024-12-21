@@ -21,7 +21,7 @@ jobs:
         with:
           auto-update-conda: false
           activate-environment: hprepo
-          environment-file: hp_environment.yml
+          environment-file: environment.yml
       - name: install
         run: |
           conda env list
