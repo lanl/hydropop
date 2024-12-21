@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "hpdocs"
+project = "epdocs"
 copyright = "2023, Jon Schwenk"
 author = "Jon Schwenk"
 release = "0.1"
@@ -15,9 +15,9 @@ release = "0.1"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 import os
 import sys
-# import hydropop
-sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
-# sys.path.insert(0, os.path.abspath("../"))
+sys.path.insert(0, os.path.abspath('../'))
+sys.path.append(r'C:\Users\318596\Desktop\ecopop\ecopop')
+import ecopop
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.autosummary"]
 

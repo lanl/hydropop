@@ -2,4 +2,4 @@ directory,filename,description
 watersheds,{name}_\ `basins.gpkg`_,watershed geometries and many attributes for which streamflow data exist; see detailed file description
 watersheds,{name}_\ `gages.gpkg`_,streamgage locations and many gage attributes for which streamflow data exist; see detailed file description
 streamflow,{id_gage_n}.csv,daily time series of streamflow in cubic meters per second; contact devs for information about q_quality column if desired
-forcings,{hpu_id_n}.csv,time series of ERA5-Land-derived variables for each hydropop unit; see detailed file description
+forcings,{hpu_id_n}.csv,time series of ERA5-Land-derived variables for each ecopop unit; see detailed file description

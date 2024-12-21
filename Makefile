@@ -13,5 +13,5 @@ rabpro:
 
 initial_data: data/initial_basins.gpkg data/initial_gages.gpkg
 
-data/initial_basins.gpkg data/initial_gages.gpkg: hydropop/streamflow/selecting_gages.py
+data/initial_basins.gpkg data/initial_gages.gpkg: ecopop/streamflow/selecting_gages.py
 	python $<

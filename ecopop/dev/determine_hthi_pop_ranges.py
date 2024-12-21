@@ -7,7 +7,7 @@ Created on Wed Mar  9 14:55:43 2022
 from osgeo import gdal
 import numpy as np
 import sys
-sys.path.append(r'X:\Research\CIMMID\hydropop\make_hpus')
+sys.path.append(r'X:\Research\CIMMID\ecopop\make_hpus')
 import hp_class as hpc
 from matplotlib import pyplot as plt
 import matplotlib.patches as mpatches
@@ -123,7 +123,7 @@ plt.figure(figsize=(10,4))
 plt.imshow(Iplot, interpolation='none')
 plt.legend(handles=patches, loc=0, borderaxespad=0., title='HTHI range')
 
-# Plot hydropop units
+# Plot ecopop units
 lid = 1
 labels = {}
 Ic_hpu = np.zeros(test.I['hthi'].shape, dtype=int)

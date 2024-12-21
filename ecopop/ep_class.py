@@ -6,8 +6,8 @@ import geopandas as gpd
 from scipy.cluster.vq import kmeans2
 from skimage.graph import RAG
 #
-import ep_utils as eut
-import rivgraph_ports as io
+from ecopop import ep_utils as eut
+from ecopop import rivgraph_ports as io
 
 
 """
@@ -90,14 +90,14 @@ class epu():
         
     def compute_ep_classes_kmeans(self, n_groups):
         """
-        Creates an image where each pixel value is the HP group to which
+        Creates an image where each pixel value is the EP group to which
         the pixel belongs. Pixels are grouped via a k-means clustering based
         on the (population, hab index) for each pixel. The number of groups
         must be specified and can be thought of as the number of regions
         in which the population, hab index space is divided into.
         
         n_groups is NOT the total number of ecopop units, but the number
-        of HP unit types.
+        of EP unit types.
         
         self.centroids contains the centroid of the (population, hab index)
         "coordinates" of each group--there is no spatial information here.

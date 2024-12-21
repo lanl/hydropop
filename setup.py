@@ -5,16 +5,16 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="hydropop",
+    name="ecopop",
     version="1.0",
     author="Jon Schwenk",
     author_email="jschwenk@lanl.gov",
-    description="Package to create hydropop scaling units",
+    description="Package to create ecopop scaling units",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/lanl/hydropop",
+    url="https://github.com/lanl/ecopop",
     project_urls={
-        "Bug Tracker": "https://github.com/lanl/hydropop/issues",
+        "Bug Tracker": "https://github.com/lanl/ecopop/issues",
     },
     # scripts=["rabpro/cli/rabpro"],
     python_requires='>=3',
