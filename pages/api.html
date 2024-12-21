@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API &mdash; epdocs 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=19aa6f94" />
+      <link rel="stylesheet" type="text/css" href="../_static/s4defs-roles.css" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Ecopop Terminology" href="terminology.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            epdocs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hpdata.html">Ecopop Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="terminology.html">Ecopop Terminology</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-ecopop.ep_class">ep_class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_class.epu"><code class="docutils literal notranslate"><span class="pre">epu</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.compute_ep_classes_kmeans"><code class="docutils literal notranslate"><span class="pre">epu.compute_ep_classes_kmeans</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.compute_ep_classes_ranges"><code class="docutils literal notranslate"><span class="pre">epu.compute_ep_classes_ranges</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.simplify_epu_classes"><code class="docutils literal notranslate"><span class="pre">epu.simplify_epu_classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.compute_epus"><code class="docutils literal notranslate"><span class="pre">epu.compute_epus</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.compute_epu_stats"><code class="docutils literal notranslate"><span class="pre">epu.compute_epu_stats</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.smooth_layers"><code class="docutils literal notranslate"><span class="pre">epu.smooth_layers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.watersheds"><code class="docutils literal notranslate"><span class="pre">epu.watersheds</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.compute_adjacency"><code class="docutils literal notranslate"><span class="pre">epu.compute_adjacency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ecopop.ep_class.epu.export_raster"><code class="docutils literal notranslate"><span class="pre">epu.export_raster</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ecopop.ep_utils">ep_utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.load_layers"><code class="docutils literal notranslate"><span class="pre">load_layers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.smooth_layer"><code class="docutils literal notranslate"><span class="pre">smooth_layer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.nan_waterbodies"><code class="docutils literal notranslate"><span class="pre">nan_waterbodies</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.layer_means"><code class="docutils literal notranslate"><span class="pre">layer_means</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.call_gdal"><code class="docutils literal notranslate"><span class="pre">call_gdal</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.fit_geotiff_into_another"><code class="docutils literal notranslate"><span class="pre">fit_geotiff_into_another</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.add_raster_stats"><code class="docutils literal notranslate"><span class="pre">add_raster_stats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.get_raster_stats"><code class="docutils literal notranslate"><span class="pre">get_raster_stats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.normalize_layers"><code class="docutils literal notranslate"><span class="pre">normalize_layers</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.simplify_classes"><code class="docutils literal notranslate"><span class="pre">simplify_classes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.simplify_epus"><code class="docutils literal notranslate"><span class="pre">simplify_epus</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.polygonize_epu"><code class="docutils literal notranslate"><span class="pre">polygonize_epu</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.epu_stats"><code class="docutils literal notranslate"><span class="pre">epu_stats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.get_stats"><code class="docutils literal notranslate"><span class="pre">get_stats</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.get_nodata_value"><code class="docutils literal notranslate"><span class="pre">get_nodata_value</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.areagrid"><code class="docutils literal notranslate"><span class="pre">areagrid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.build_vrt"><code class="docutils literal notranslate"><span class="pre">build_vrt</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.get_raster_clipping_coords"><code class="docutils literal notranslate"><span class="pre">get_raster_clipping_coords</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.parse_path"><code class="docutils literal notranslate"><span class="pre">parse_path</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.overlay_watersheds"><code class="docutils literal notranslate"><span class="pre">overlay_watersheds</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.segment_binary_im"><code class="docutils literal notranslate"><span class="pre">segment_binary_im</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ecopop.ep_utils.create_epus_from_classes"><code class="docutils literal notranslate"><span class="pre">create_epus_from_classes</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">epdocs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/pages/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api">
+<h1>API<a class="headerlink" href="#api" title="Link to this heading"></a></h1>
+<section id="module-ecopop.ep_class">
+<span id="ep-class"></span><h2>ep_class<a class="headerlink" href="#module-ecopop.ep_class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ecopop.ep_class.</span></span><span class="sig-name descname"><span class="pre">epu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_pop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_hthi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_water_raster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waterbody_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu" title="Link to this definition"></a></dt>
+<dd><p>The methods of this class are for generating and exporting ecopop Units.
+Functions are available for plotting and exporting as well.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.compute_ep_classes_kmeans">
+<span class="sig-name descname"><span class="pre">compute_ep_classes_kmeans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_groups</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.compute_ep_classes_kmeans" title="Link to this definition"></a></dt>
+<dd><p>Creates an image where each pixel value is the EP group to which
+the pixel belongs. Pixels are grouped via a k-means clustering based
+on the (population, hab index) for each pixel. The number of groups
+must be specified and can be thought of as the number of regions
+in which the population, hab index space is divided into.</p>
+<p>n_groups is NOT the total number of ecopop units, but the number
+of EP unit types.</p>
+<p>self.centroids contains the centroid of the (population, hab index)
+“coordinates” of each group–there is no spatial information here.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.compute_ep_classes_ranges">
+<span class="sig-name descname"><span class="pre">compute_ep_classes_ranges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">breaks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'hthi':</span> <span class="pre">[-0.1,</span> <span class="pre">0.3,</span> <span class="pre">0.5,</span> <span class="pre">0.6,</span> <span class="pre">0.7,</span> <span class="pre">0.8,</span> <span class="pre">1.1],</span> <span class="pre">'pop':</span> <span class="pre">[-100,</span> <span class="pre">-4,</span> <span class="pre">-2,</span> <span class="pre">-1,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">100]}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.compute_ep_classes_ranges" title="Link to this definition"></a></dt>
+<dd><p>Divides the pop vs mhi space into ecopop units based on a supplied
+breaks dictionary that defines the boundaries along each axis.</p>
+<p>Populations of 0 were set to a very low number so as not to error in
+log-transformation. This should be accounted for when supplying breaks;
+i.e. make sure there’s an interval that captures only this value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.simplify_epu_classes">
+<span class="sig-name descname"><span class="pre">simplify_epu_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_class_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.simplify_epu_classes" title="Link to this definition"></a></dt>
+<dd><p>Merges smaller epu classes into their neighbors. Uses an iterative 
+approach because class regions change if a neighboring class region
+is absorbed into it.
+unique_neighbor = True : 
+unique_neighbor = False : fills all patches smaller than minpatchsize with the mode of the neighboring pixel labels - this option will ensure that</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>min_class_size<span class="classifier">integer, optional</span></dt><dd><p>Minimum area, in pixels, that a class size can have. The default is 4.</p>
+</dd>
+<dt>nodata<span class="classifier">integer, optional</span></dt><dd><p>Class type 0 corresponds to nodata in the epu class code. Specifying
+this is necessary to avoid setting valid classes to nodata types.
+The default is 0.</p>
+</dd>
+<dt>maxiter<span class="classifier">integer, optional</span></dt><dd><p>Maximum number of iteration to attempt to . The default is 10.</p>
+</dd>
+<dt>unique_neighbor<span class="classifier">boolean, optional</span></dt><dd><p>If True, only merges a class region if its neighboring pixels all 
+share the same label (more conservative). This option will allow 
+patches smaller than min_class_size to persist. 
+If False, will merge ALL patches smaller than min_class_size using
+the mode of the neighboring pixel classes. This option will ensure
+that no class regions will be larger than min_class_size EXCEPT
+in cases of a class regions surrounded by nodata.
+The default is False.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Link to this heading"></a></h3>
+<p>Adds a ‘epu_class_simplified’ layer to the epu.I dictionary.</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.compute_epus">
+<span class="sig-name descname"><span class="pre">compute_epus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_epu_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_epu_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.compute_epus" title="Link to this definition"></a></dt>
+<dd><p>Divides the computed classes into regions of (approximately)
+target_epu_size pixels each. The resulting epu raster is then
+polygonized.</p>
+<p>target_size_pixels : target epu size in pixels
+minpatch is the smallest patch size allowed, in pixels
+unique_neighbor = True : only fills a patch if its neighboring pixels all share the same label (more conservative) - this option will allow patches larger than minpatch to persist.
+unique_neighbor = False : fills all patches smaller than minpatchsize with the mode of the neighboring pixel labels</p>
+<section id="id1">
+<h3>Parameters<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>target_epu_size<span class="classifier">int</span></dt><dd><p>The desired size of each epu, in pixels.</p>
+</dd>
+<dt>min_epu_size<span class="classifier">int</span></dt><dd><p>The desired minimum size of each epu.</p>
+</dd>
+<dt>nodata<span class="classifier">int, optional</span></dt><dd><p>Specify nodata class value. The epu class is designed to set these
+to 0. The default is 0.</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h3>Returns<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>Adds ‘epu’ and ‘epu_simlified’ layers to the epu.I dictionary.
+Adds a new attribute (‘epus’) to the class; this attribute is a
+polygonized version of self.I[‘epu_simplfied’].</p>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.compute_epu_stats">
+<span class="sig-name descname"><span class="pre">compute_epu_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">do_stats</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.compute_epu_stats" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>do_stats<span class="classifier">dict</span></dt><dd><p>keys are names of layers to compute stats for
+values are two-element lists of [path_to_raster, [stats to compute]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.smooth_layers">
+<span class="sig-name descname"><span class="pre">smooth_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigmas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.smooth_layers" title="Link to this definition"></a></dt>
+<dd><p>By default will smooth layers from the layers_norm dict. Call 
+eut.smooth_layer() directly if unnormalized layer smoothing is desired.
+sigma is the smoothing parameter. Higher sigma -&gt; more smoothing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.watersheds">
+<span class="sig-name descname"><span class="pre">watersheds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_out</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.watersheds" title="Link to this definition"></a></dt>
+<dd><p>Computes the fraction of watershed within each epu.</p>
+<dl class="simple">
+<dt>path<span class="classifier">str</span></dt><dd><p>The path to the geopandas-readable watershed geometry file.</p>
+</dd>
+<dt>path_out<span class="classifier">str</span></dt><dd><p>The path to write the watershed/epu dataframe. If None, nothing
+will be written but the dataframe will be stored as an object
+in the epu class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.compute_adjacency">
+<span class="sig-name descname"><span class="pre">compute_adjacency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'epu_simplified'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.compute_adjacency" title="Link to this definition"></a></dt>
+<dd><p>Computes the adjacency of a raster layer, typically ‘epu_simplfied’.
+Must be run after computing epus if layer is not specified.</p>
+<section id="id3">
+<h3>Parameters<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>layer<span class="classifier">str, optional</span></dt><dd><p>The layer within self.I to compute adjaceny on. The default is 
+‘epu_simplfied’.</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h3>Returns<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>adj_df<span class="classifier">pandas.DataFrame</span></dt><dd><p>The adjacency dataframe.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ecopop.ep_class.epu.export_raster">
+<span class="sig-name descname"><span class="pre">export_raster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">whichraster</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_class.epu.export_raster" title="Link to this definition"></a></dt>
+<dd><p>Exports the geotiff and polygon versions of the ecopop Units. Check
+the paths dictionary for where these are exported.</p>
+<dl class="simple">
+<dt>whichraster<span class="classifier">str</span></dt><dd><p>The key within self.I to export.</p>
+</dd>
+<dt>path<span class="classifier">str</span></dt><dd><p>The path to export to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-ecopop.ep_utils">
+<span id="ep-utils"></span><h2>ep_utils<a class="headerlink" href="#module-ecopop.ep_utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.load_layers">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">load_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.load_layers" title="Link to this definition"></a></dt>
+<dd><p>Loads all the specified layers into a dictionary</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.smooth_layer">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">smooth_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.smooth_layer" title="Link to this definition"></a></dt>
+<dd><p>Replaces the astropy smoothing method with a much more efficient one. Smooths a layer containing nan values by considering only weights from non-nan values. sigma is the size of the Gaussian smoothing kernel.</p>
+<p><a class="reference external" href="https://stackoverflow.com/questions/18697532/gaussian-filtering-a-image-with-nan-in-python/36307291">https://stackoverflow.com/questions/18697532/gaussian-filtering-a-image-with-nan-in-python/36307291</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.nan_waterbodies">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">nan_waterbodies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">paths</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.nan_waterbodies" title="Link to this definition"></a></dt>
+<dd><p>Sets all persistent waterbodies to np.nan in all layers. Layers may also
+be an image.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.layer_means">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">layer_means</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.layer_means" title="Link to this definition"></a></dt>
+<dd><p>Gets the mean of each layer. Population must be treated separately because
+we want the non-zero mean.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.call_gdal">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">call_gdal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callstr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.call_gdal" title="Link to this definition"></a></dt>
+<dd><p>Executes a command-line gdal string with subprocess.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.fit_geotiff_into_another">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">fit_geotiff_into_another</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tofit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Byte'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matchres</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bilinear'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.fit_geotiff_into_another" title="Link to this definition"></a></dt>
+<dd><p>Clips a geotiff (tofit) by a reference geotiff (ref), then matches the 
+extents of the clipped to that of the reference.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.add_raster_stats">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">add_raster_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_raster</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.add_raster_stats" title="Link to this definition"></a></dt>
+<dd><p>Adds raster statistics to a raster’s metadata using GDAL. Can take awhile
+for large rasters as the statistics are not approximated, but computed on
+all the available values. Only needs to be run once for a given raster
+or virtual raster, as the stats are stored in the raster’s metadata.</p>
+<section id="id5">
+<h3>Parameters<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>path_raster<span class="classifier">TYPE</span></dt><dd><p>DESCRIPTION.</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h3>Returns<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>None.</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.get_raster_stats">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">get_raster_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_raster</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.get_raster_stats" title="Link to this definition"></a></dt>
+<dd><p>Retrieves raster statistics from metadata of a raster. If none are available,
+they will automatically be computed. Currently designed for a single-band
+raster.</p>
+<section id="id7">
+<h3>Parameters<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>path_raster<span class="classifier">str</span></dt><dd><p>Path to the raster to fetch statistics.</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h3>Returns<a class="headerlink" href="#id8" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>minval<span class="classifier">float</span></dt><dd><p>Minimum value of the raster.</p>
+</dd>
+<dt>maxval<span class="classifier">float</span></dt><dd><p>Maximum value of the raster.</p>
+</dd>
+<dt>meanval<span class="classifier">float</span></dt><dd><p>Mean value of the raster.</p>
+</dd>
+<dt>stdval<span class="classifier">float</span></dt><dd><p>Standard deviation of the raster.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.normalize_layers">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">normalize_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">layers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layerlist</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.normalize_layers" title="Link to this definition"></a></dt>
+<dd><p>Normalizes layers appropriately between 0 and 1, where 0 and 1 correspond
+to the layer’s contribution to the MHI. E.g. for HAND, higher values 
+corresponds to lower MHI, so this layer will be inverted when normalizing.</p>
+<p>Returns a dictionary of normalized layers.
+gdp - normalized on 0,1 with higher values corresponding to lower gdp
+pop - normalized on 0,1 with higher values corresponding to higher gdp</p>
+<p>In order to have epus be consistent across all spatial domains, normalization
+parameters are hard-coded based on physical reasoning or global statistics
+of the layer.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.simplify_classes">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">simplify_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Ilabeled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minpatchsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unique_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.simplify_classes" title="Link to this definition"></a></dt>
+<dd><p>Given an image whose pixels are all integer labels, this will fill any
+patches of the same label equal to or smaller than minpatchsize with either
+unique_neighbor = True : only fills a patch if its neighboring pixels all share the same label
+unique_neighbor = False : fills all patches smaller than minpatchsize with the mode of the neighboring pixel labels</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.simplify_epus">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">simplify_epus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iepu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Iclasses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_epu_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_epu_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.simplify_epus" title="Link to this definition"></a></dt>
+<dd><p>Given an image where pixel values correspond to the epu to which the
+pixel belongs, this attempts to merge smaller epus with neighboring ones
+of the same class such that no epus’ areas are smaller than min_epu_size.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.polygonize_epu">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">polygonize_epu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geotransform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj_wkt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Imask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.polygonize_epu" title="Link to this definition"></a></dt>
+<dd><p>Polygonizes epus using in-memory process (no need to write geotiff to disk).
+The resulting GeoDataFrame has an ‘epu_id’ column that represents the
+value of the pixels comprising each polygon.</p>
+<section id="id9">
+<h3>Parameters<a class="headerlink" href="#id9" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>I<span class="classifier">np.array</span></dt><dd><p>Raster to polygonize.</p>
+</dd>
+<dt>geotransform<span class="classifier">tuple</span></dt><dd><p>6-element GDAL GeoTransform</p>
+</dd>
+<dt>proj_wkt<span class="classifier">str</span></dt><dd><p>Well-known-text representation of the CRS.</p>
+</dd>
+<dt>Imask<span class="classifier">np.array, optional</span></dt><dd><p>Binary array where 1s are valid. Must be same shape as I.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h3>Returns<a class="headerlink" href="#id10" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>gdf<span class="classifier">geopandas.GeoDataFrame</span></dt><dd><p>Polygons of the rasterized image I.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.epu_stats">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">epu_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">do_stats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_gdf</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.epu_stats" title="Link to this definition"></a></dt>
+<dd><p>Computes all desired stats for each epu. 
+which_stats: dictionary whose kyes correspond to those in paths and whose values are the desired stats for each variable (look at rasterstats for stat choices, but they’re pretty intuitive.)
+paths: dictionary containing paths to the various rasters to be analyzed</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.get_stats">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">get_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rastpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-999</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.get_stats" title="Link to this definition"></a></dt>
+<dd><p>Given the path to the rasterized epu polygons and a path to a raster 
+we want to compute statistics, this computes the stats in ‘stats’ and 
+returns a DataFrame containining all the stats for each epu.</p>
+<p>Note that epu polygons must be in the same coordinate reference system
+as the provided raster. In the case of epus, the rasters are all in
+EPSG:4326 and the epus are derived from these rasters, so they are also in 
+EPSG:4326.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.get_nodata_value">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">get_nodata_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tifpath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.get_nodata_value" title="Link to this definition"></a></dt>
+<dd><p>Reads a geotiff’s metadata to return the notdata value. This is converted
+to an int if the value is whole.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.areagrid">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">areagrid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">georaster_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.areagrid" title="Link to this definition"></a></dt>
+<dd><p>Must provide georaster in 4326 CRS</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.build_vrt">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">build_vrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tilespath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clipper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodataval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nearest'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tif'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.build_vrt" title="Link to this definition"></a></dt>
+<dd><p>Creates a text file for input to gdalbuildvrt, then builds vrt file with same name. If output path is not specified, vrt is given the name of the final folder in the path.</p>
+<p>INPUTS: 
+tilespath - str: the path to the file (or folder of files) to be clipped
+if tilespath contains an extension (e.g. .tif, .vrt), then  that file is used. Otherwise, a virtual raster will be built of all the files in the provided folder.
+if tilespath contains an extension (e.g. .tif, .vrt), filenames  of tiffs to be written to vrt. This list can be created by tifflist and should be in the same folder
+extents - list: (optional) - the extents by which to crop the vrt. Extents should be a 4 element list: [left, right, top, bottom] in the ssame projection coordinates as the file(s) to be clipped
+clipper - str:  path to a georeferenced image, vrt, or shapefile that will be used to clip outputfile - str:  path (including filename w/ext) to output the vrt. If none is provided, the vrt will be saved in the ‘filespath’ path
+res - flt:  resolution of the output vrt (applied to both x and y directions)
+sampling - str:  resampling scheme (nearest, bilinear, cubic, cubicspline, lanczos, average, mode)
+nodataval - int:  (optional) - value to be masked as nodata
+ftype - str:  ‘tif’ if buuilding from a list of tiffs, or ‘vrt’ if building from a vrt</p>
+<dl class="simple">
+<dt>OUTPUTS:</dt><dd><p>vrtname - str:  path+filname of the built virtual raster</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.get_raster_clipping_coords">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">get_raster_clipping_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gdobj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.get_raster_clipping_coords" title="Link to this definition"></a></dt>
+<dd><p>Given a gdobj pointing to a raster and a list-like bounds (minx, miny, maxx, maxy),
+returns the row and col of the upper-leftmost pixel and the number
+of rows and columns to fetch. Also returns the GeoTransform of the
+clipped raster.</p>
+<p>Bounds will be clipped to the extents of the raster if they’re beyond its
+limits.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.parse_path">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">parse_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.parse_path" title="Link to this definition"></a></dt>
+<dd><p>Parses a file or folderpath into: base, folder (where folder is the 
+outermost subdirectory), filename, and extention. Filename and extension
+are empty if a directory is passed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.overlay_watersheds">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">overlay_watersheds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_coverage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.overlay_watersheds" title="Link to this definition"></a></dt>
+<dd><p>Overlays epus on a GeoDataFrame of watersheds/basins and returns a dataframe
+grouped by watersheds that contains the epus and respective areas for each
+within each watershed.</p>
+<section id="id11">
+<h3>Parameters<a class="headerlink" href="#id11" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>epus<span class="classifier">geopandas.GeoDataFrame</span></dt><dd><p>Computed by the epu class.</p>
+</dd>
+<dt>basins<span class="classifier">geopandas.GeoDataFrame</span></dt><dd><p>At a minimum, needs two columns: the watershed geometries and an id
+column called ‘id_gage’.</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h3>Returns<a class="headerlink" href="#id12" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>regrouped<span class="classifier">pandas.DataFrame</span></dt><dd><p>Contains three columns: id_gage, epu_id (array), area_km2 (array). The
+ordering of the epu_id and area_km2 arrays correspond.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.segment_binary_im">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">segment_binary_im</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_coords</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">imshape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_n_pix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.segment_binary_im" title="Link to this definition"></a></dt>
+<dd><p>Takes a binary image of imshape, with “on” pixel coordinates defined by 
+all_pixels and attempts to divide the binary image into regions of 
+size target_n_pix, giving each region a unique label starting with 
+initial_label.</p>
+<p>Uses a breadth-first traversal algorithm to “grow” from initial points.
+An initial point is determined by the pixel that is farthest from the
+“centroid” of all pixels. Not actual centroid, simply the mean of all
+row, column coordinates.</p>
+<section id="id13">
+<h3>Parameters<a class="headerlink" href="#id13" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>all_pixels<span class="classifier">set of tuples</span></dt><dd><p>One entry per “on” pixel of the binary image.</p>
+</dd>
+<dt>imshape<span class="classifier">tuple OR list-like</span></dt><dd><p>(number of rows, number of columns).</p>
+</dd>
+<dt>target_n_pix<span class="classifier">integer</span></dt><dd><p>Desired size of regions to divide the binary image into. This algorithm
+does not guarantee these sizes exactly.</p>
+</dd>
+<dt>initial_label<span class="classifier">integer, optional</span></dt><dd><p>The value to start with to apply labels to regions. The default is 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h3>Returns<a class="headerlink" href="#id14" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Iparent<span class="classifier">np.array</span></dt><dd><p>Array of imshape size where each pixel value is the region it belongs
+to. “Background” pixels (i.e. those that are “off” in the initial
+binary image) are labeled 0.</p>
+</dd>
+<dt>label_id<span class="classifier">int</span></dt><dd><p>The highest label assigned to a region in Iparent 
+(i.e. Iparent.flatten().max()).</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ecopop.ep_utils.create_epus_from_classes">
+<span class="sig-prename descclassname"><span class="pre">ecopop.ep_utils.</span></span><span class="sig-name descname"><span class="pre">create_epus_from_classes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Iclasses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_n_pix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ecopop.ep_utils.create_epus_from_classes" title="Link to this definition"></a></dt>
+<dd><p>Given an initial image of EP classes (Iclasses), this will divide those
+classes into epus of approximately target_n_pix areas.</p>
+<section id="id15">
+<h3>Parameters<a class="headerlink" href="#id15" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Iclasses<span class="classifier">numpy.array</span></dt><dd><p>Image of epu class labels for each pixel in the domain.</p>
+</dd>
+<dt>target_n_pix<span class="classifier">integer</span></dt><dd><p>Target size for each epu.</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h3>Returns<a class="headerlink" href="#id16" title="Link to this heading"></a></h3>
+<dl class="simple">
+<dt>Iregions<span class="classifier">numpy.array</span></dt><dd><p>Same shape as Iclasses; each epu is uniquely labeled.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="terminology.html" class="btn btn-neutral float-left" title="Ecopop Terminology" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Jon Schwenk.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

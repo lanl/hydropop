@@ -1,4 +1,4 @@
-.. _hpdata:
+.. _installation:
 .. role:: raw-html(raw)
    :format: html
 
@@ -19,28 +19,28 @@ It's a package-solver that's orders of magnitude faster. You can install it into
 
 or follow the actual `installation instructions <https://mamba.readthedocs.io/en/latest/installation.html>`_.
 
-Clone the ``hydropop`` repo to your PC. This will include the ``hp_enviornment.yml`` file containing the dependencies. I 
+Clone the ``ecopop`` repo to your PC. This will include the ``enviornment.yml`` file containing the dependencies. I 
 prefer `Github Desktop <https://desktop.github.com/>`_ for repo management and cloning.
 
-Open an Anaconda Terminal window and create an empty environment named ``hprepo``:
+Open an Anaconda Terminal window and create an empty environment named ``ecopop``:
 
 :: 
 
-   conda create --name hprepo --no-default-packages
+   conda create --name ecopop --no-default-packages
 
 Then update this enviornment using ``mamba`` and pointing to the ``environment.yml`` file:
 
 ::
 
-   mamba env update -n hprepo --file "path\to\environment.yml"
+   mamba env update -n ecopop --file "path\to\environment.yml"
 
 Finally, use ``pip`` to do a live-install of the repo into the environment.
 
 ::
 
-   conda activate hprepo
-   pip install -e "path\to\hydropop\repo\folder"
+   conda activate ecopop
+   pip install -e "path\to\ecopop\repo\folder"
 
-And that's it! Note that this is a "live install" of the hydropop repo, which means that as you edit (or update) the 
-repo's code on your PC, those changes will be immediately recognized. You should be able to use ``import hydropop.hp_utils`` 
+And that's it! Note that this is a "live install" of the ecopop repo, which means that as you edit (or update) the 
+repo's code on your PC, those changes will be immediately recognized. You should be able to use ``import ecopop.hp_utils`` 
 etc. at this point.
